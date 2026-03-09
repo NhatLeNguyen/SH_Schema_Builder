@@ -1,18 +1,21 @@
-import { useMemo, useEffect, useState, type MouseEvent } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { Tree, Empty, Typography, Space, Button, Popconfirm, Tag, Dropdown } from 'antd';
+import {
+  FolderOutlined,
+  FolderOpenOutlined,
+  FileTextOutlined,
+  DeleteOutlined,
+  LockOutlined,
+  DatabaseOutlined,
+  MoreOutlined,
+  AppstoreAddOutlined,
+  FormOutlined,
+} from '@ant-design/icons';
 import { useEditorStore } from '../store/editorStore';
 import type { Group } from '../hooks/useSchema';
-import { 
-  Folder, 
-  ChevronRight, 
-  ChevronDown, 
-  Plus, 
-  Trash2, 
-  Lock,
-  FileText,
-  Database,
-  Sparkles
-} from 'lucide-react';
-import { cn } from '../lib/utils';
+import type { DataNode } from 'antd/es/tree';
+
+const { Text } = Typography;
 
 interface SchemaTreeProps {
   groups: Group[];
@@ -23,213 +26,213 @@ interface SchemaTreeProps {
   searchTerm?: string;
 }
 
-const TreeNode = ({ 
-  item, 
-  level = 0, 
-  onAddSubGroup, 
-  onAddAttribute, 
-  onDeleteGroup, 
-  onDeleteAttribute,
-  searchTerm 
-}: { 
-  item: any, 
-  level?: number,
-  onAddSubGroup: any,
-  onAddAttribute: any,
-  onDeleteGroup: any,
-  onDeleteAttribute: any,
-  searchTerm?: string
-}) => {
-  const [isOpen, setIsOpen] = useState(level < 1 || !!searchTerm);
-  const { selectedNodeId, setSelectedNode } = useEditorStore();
-  
-  const isSelected = selectedNodeId === (item.attributes ? `g_${item.id}` : `a_${item.id}`);
-  const isGroup = !!item.attributes;
-  const isCore = !!item.isCore;
-
-  // Re-open if searching
-  useEffect(() => {
-    if (searchTerm) setIsOpen(true);
-  }, [searchTerm]);
-
-  const handleToggle = (e: MouseEvent) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
-
-  const handleSelect = (e: MouseEvent) => {
-    e.stopPropagation();
-    setSelectedNode(
-      isGroup ? `g_${item.id}` : `a_${item.id}`,
-      isGroup ? 'group' : 'attribute'
-    );
-  };
-
-  return (
-    <div className="select-none animate-in fade-in slide-in-from-left-2 duration-500">
-      <div 
-        onClick={handleSelect}
-        className={cn(
-          "group flex items-center gap-2.5 py-2.5 px-3 rounded-2xl cursor-pointer transition-all duration-300 mb-1 border relative overflow-hidden",
-          isSelected 
-            ? "bg-primary/10 text-primary border-primary/30 shadow-lg shadow-primary/5" 
-            : "hover:bg-accent/40 text-muted-foreground/80 hover:text-foreground border-transparent hover:border-border/60 hover:translate-x-1"
-        )}
-        style={{ paddingLeft: `${(level * 0.75) + 0.75}rem` }}
-      >
-        {/* Selection Glow */}
-        {isSelected && (
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none" />
-        )}
-
-        <div className="flex items-center gap-2.5 flex-1 min-w-0 z-10">
-          {isGroup ? (
-            <button 
-              onClick={handleToggle}
-              className={cn(
-                "p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-transform duration-300",
-                isOpen && "rotate-0",
-                !isOpen && "-rotate-0"
-              )}
-            >
-              {isOpen ? <ChevronDown size={14} className="opacity-40" /> : <ChevronRight size={14} className="opacity-40" />}
-            </button>
-          ) : (
-            <div className="w-6" />
-          )}
-          
-          <div className={cn(
-              "p-2 rounded-xl shrink-0 transition-all duration-500",
-              isSelected 
-                ? "bg-primary text-white shadow-lg shadow-primary/30 rotate-hover" 
-                : isGroup ? "bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white" : "bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white"
-          )}>
-            {isGroup ? <Folder size={14} strokeWidth={2.5} /> : <FileText size={14} strokeWidth={2.5} />}
-          </div>
-          
-          <div className="flex flex-col min-w-0">
-            <span className={cn(
-              "truncate text-[13px] font-bold tracking-tight transition-colors",
-              isSelected ? "text-primary" : "group-hover:text-foreground"
-            )}>
-              {item.name}
-            </span>
-            {isGroup && (
-               <span className="text-[9px] opacity-40 font-mono tracking-tighter truncate uppercase group-hover:opacity-60 transition-opacity">
-                 {item.sqlTableName}
-               </span>
-            )}
-          </div>
-          
-          {isCore && (
-            <div className="p-1 rounded-full bg-destructive/10 text-destructive ml-auto">
-              <Lock size={10} strokeWidth={3} />
-            </div>
-          )}
-        </div>
-
-        <div className="opacity-0 group-hover:opacity-100 flex items-center gap-1.5 transition-all duration-300 z-10 translate-x-2 group-hover:translate-x-0">
-          {isGroup && (
-            <button 
-              onClick={(e) => { e.stopPropagation(); onAddAttribute(item.id); }}
-              className="p-1.5 hover:bg-primary/20 rounded-xl text-primary transition-colors bg-background/50 border border-border/40"
-              title="Thêm thuộc tính"
-            >
-              <Plus size={14} strokeWidth={2.5} />
-            </button>
-          )}
-          <button 
-            onClick={(e) => { 
-                e.stopPropagation(); 
-                if (isCore) {
-                  if (confirm('Cảnh báo: Đây là core field từ schema gốc! Bạn vẫn muốn tiếp tục xóa?')) {
-                    if (isGroup) onDeleteGroup(item.id); else onDeleteAttribute(item.id);
-                  }
-                } else {
-                  if (isGroup) onDeleteGroup(item.id); else onDeleteAttribute(item.id);
-                }
-            }}
-            className={cn(
-                "p-1.5 hover:bg-destructive/20 rounded-xl transition-colors bg-background/50 border border-border/40",
-                isCore ? "text-destructive/30 hover:text-destructive" : "text-destructive/60 hover:text-destructive"
-            )}
-            title="Xóa"
-          >
-            <Trash2 size={14} strokeWidth={2.5} />
-          </button>
-        </div>
-      </div>
-
-      {isGroup && isOpen && (
-        <div className="ml-3 border-l-2 border-border/30 pl-3 mt-1 space-y-1 animate-in slide-in-from-top-1 duration-300">
-          {item.subGroups && item.subGroups.map((sub: any) => (
-            <TreeNode 
-              key={`g_${sub.id}`} 
-              item={sub} 
-              level={level + 1}
-              onAddSubGroup={onAddSubGroup}
-              onAddAttribute={onAddAttribute}
-              onDeleteGroup={onDeleteGroup}
-              onDeleteAttribute={onDeleteAttribute}
-              searchTerm={searchTerm}
-            />
-          ))}
-          {item.attributes && item.attributes.map((attr: any) => (
-             <TreeNode 
-               key={`a_${attr.id}`} 
-               item={attr} 
-               level={level + 1}
-               onAddSubGroup={onAddSubGroup}
-               onAddAttribute={onAddAttribute}
-               onDeleteGroup={onDeleteGroup}
-               onDeleteAttribute={onDeleteAttribute}
-               searchTerm={searchTerm}
-             />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 export function SchemaTree({ groups, onAddSubGroup, onAddAttribute, onDeleteGroup, onDeleteAttribute, searchTerm }: SchemaTreeProps) {
-  const filteredData = useMemo(() => {
-     if (!searchTerm) return groups;
+  const { selectedNodeId, setSelectedNode } = useEditorStore();
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
 
-     const term = searchTerm.toLowerCase();
-     // Simple filter logic: keep groups that match or have matching attributes
-     return groups.filter(g => 
-        g.name.toLowerCase().includes(term) || 
-        (g.attributes && g.attributes.some(a => a.name.toLowerCase().includes(term))) ||
-        (g.subGroups && g.subGroups.some((sg: any) => sg.name.toLowerCase().includes(term)))
-     );
+  // Collect all group keys recursively
+  const collectAllKeys = (gs: Group[], parentKey: string = '0'): React.Key[] => {
+    const keys: React.Key[] = [];
+    gs.forEach(g => {
+      keys.push(`g_${parentKey}_${g.id}`);
+      if (g.subGroups) keys.push(...collectAllKeys(g.subGroups, String(g.id)));
+    });
+    return keys;
+  };
+
+  // Auto-expand all on mount and group change
+  useEffect(() => {
+    setExpandedKeys(collectAllKeys(groups));
+  }, [groups]);
+
+  // Expand all when searching
+  useEffect(() => {
+    if (searchTerm) {
+      setExpandedKeys(collectAllKeys(groups));
+    }
+  }, [searchTerm, groups]);
+
+  const filteredGroups = useMemo(() => {
+    if (!searchTerm) return groups;
+    const term = searchTerm.toLowerCase();
+    return groups.filter(g =>
+      g.name.toLowerCase().includes(term) ||
+      (g.attributes && g.attributes.some(a => a.name.toLowerCase().includes(term))) ||
+      (g.subGroups && g.subGroups.some((sg: any) => sg.name.toLowerCase().includes(term)))
+    );
   }, [groups, searchTerm]);
+
+  const buildTreeData = (groupList: Group[], parentKey: string = '0', depth: number = 0): DataNode[] => {
+    return groupList.map(group => {
+      const nodeKey = `g_${parentKey}_${group.id}`;
+      const children: DataNode[] = [];
+      const hasSubGroups = group.subGroups && group.subGroups.length > 0;
+      const attrCount = group.attributes?.length || 0;
+
+      // Sub-groups first
+      if (hasSubGroups) {
+        children.push(...buildTreeData(group.subGroups!, String(group.id), depth + 1));
+      }
+
+      // Then attributes
+      if (group.attributes) {
+        group.attributes.forEach(attr => {
+          children.push({
+            key: `a_${group.id}_${attr.id}`,
+            title: (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <Space size={4}>
+                  <FileTextOutlined style={{ color: '#3b82f6', fontSize: 12 }} />
+                  <Text style={{ fontSize: 12.5 }}>{attr.name}</Text>
+                  {attr.isCore && <LockOutlined style={{ color: '#d97706', fontSize: 9 }} />}
+                  {attr.dataType && (
+                    <Tag
+                      color="processing"
+                      style={{ fontSize: 9, lineHeight: '14px', padding: '0 4px', margin: 0, borderRadius: 4 }}
+                    >
+                      {attr.dataType}
+                    </Tag>
+                  )}
+                </Space>
+                <span className="tree-node-actions" style={{ opacity: 0, transition: 'opacity 0.2s' }}>
+                  <Popconfirm
+                    title={attr.isCore ? '⚠️ Core field! Xóa có thể gây lỗi hệ thống.' : 'Xác nhận xóa thuộc tính?'}
+                    onConfirm={(e) => { e?.stopPropagation(); onDeleteAttribute(attr.id); }}
+                    onCancel={(e) => e?.stopPropagation()}
+                    okText="Xóa"
+                    cancelText="Hủy"
+                    okButtonProps={{ danger: true }}
+                  >
+                    <Button type="text" size="small" icon={<DeleteOutlined />} danger onClick={(e) => e.stopPropagation()} style={{ padding: '0 4px', height: 20 }} />
+                  </Popconfirm>
+                </span>
+              </div>
+            ),
+            isLeaf: true,
+          });
+        });
+      }
+
+      // Group action menu items
+      const menuItems = [
+        { key: 'add-subgroup', icon: <AppstoreAddOutlined />, label: 'Thêm nhóm con' },
+        { key: 'add-attr', icon: <FormOutlined />, label: 'Thêm thuộc tính' },
+        { type: 'divider' as const },
+        {
+          key: 'delete',
+          icon: <DeleteOutlined />,
+          label: group.isCore ? 'Xóa (Core — cẩn thận!)' : 'Xóa nhóm',
+          danger: true,
+        },
+      ];
+
+      return {
+        key: nodeKey,
+        title: (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, minWidth: 0, flex: 1 }}>
+              <span style={{ marginTop: 2, flexShrink: 0 }}>
+                {expandedKeys.includes(nodeKey)
+                  ? <FolderOpenOutlined style={{ color: depth === 0 ? '#4f46e5' : '#f59e0b', fontSize: 14 }} />
+                  : <FolderOutlined style={{ color: depth === 0 ? '#4f46e5' : '#f59e0b', fontSize: 14 }} />
+                }
+              </span>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Text strong style={{ fontSize: 13, lineHeight: 1.3 }}>{group.name}</Text>
+                  {group.isCore && (
+                    <Tag color="volcano" style={{ fontSize: 8, lineHeight: '13px', padding: '0 3px', margin: 0, borderRadius: 3, fontWeight: 800 }}>
+                      CORE
+                    </Tag>
+                  )}
+                  {attrCount > 0 && (
+                    <Text type="secondary" style={{ fontSize: 9 }}>({attrCount})</Text>
+                  )}
+                </div>
+                <Text type="secondary" style={{ fontSize: 9, fontFamily: 'monospace', display: 'block', lineHeight: 1.4 }}>{group.sqlTableName}</Text>
+              </div>
+            </div>
+            <span className="tree-node-actions" style={{ opacity: 0, transition: 'opacity 0.2s', flexShrink: 0 }}>
+              <Dropdown
+                menu={{
+                  items: menuItems,
+                  onClick: ({ key, domEvent }) => {
+                    domEvent.stopPropagation();
+                    if (key === 'add-subgroup') onAddSubGroup(group.id);
+                    else if (key === 'add-attr') onAddAttribute(group.id);
+                    else if (key === 'delete') {
+                      if (group.isCore) {
+                        if (confirm('⚠️ Đây là Core group! Xóa có thể gây lỗi hệ thống. Tiếp tục?')) {
+                          onDeleteGroup(group.id);
+                        }
+                      } else {
+                        onDeleteGroup(group.id);
+                      }
+                    }
+                  },
+                }}
+                trigger={['click']}
+                placement="bottomRight"
+              >
+                <Button
+                  type="text"
+                  size="small"
+                  icon={<MoreOutlined />}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{ padding: '0 4px', height: 22, color: '#888' }}
+                />
+              </Dropdown>
+            </span>
+          </div>
+        ),
+        children: children.length > 0 ? children : undefined,
+      };
+    });
+  };
 
   if (groups.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-6 text-muted-foreground bg-accent/10 rounded-[2.5rem] border-2 border-dashed border-border/40 group cursor-default">
-        <div className="relative mb-4">
-           <Database className="w-12 h-12 opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
-           <Sparkles className="absolute top-0 right-0 w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity animate-pulse" />
-        </div>
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-center opacity-40">Hệ thống chưa có dữ liệu</p>
+      <div style={{ padding: 40, textAlign: 'center' }}>
+        <Empty
+          image={<DatabaseOutlined style={{ fontSize: 48, color: 'rgba(0,0,0,0.1)' }} />}
+          description={<Text type="secondary" style={{ fontSize: 12 }}>Tầng này chưa có dữ liệu</Text>}
+        />
       </div>
     );
   }
 
+  const treeData = buildTreeData(filteredGroups);
+
   return (
-    <div className="space-y-1.5 px-1 py-2">
-      {filteredData.map(group => (
-        <TreeNode 
-          key={`g_${group.id}`} 
-          item={group} 
-          onAddSubGroup={onAddSubGroup}
-          onAddAttribute={onAddAttribute}
-          onDeleteGroup={onDeleteGroup}
-          onDeleteAttribute={onDeleteAttribute}
-          searchTerm={searchTerm}
-        />
-      ))}
-    </div>
+    <>
+      <style>{`
+        .schema-tree .ant-tree-treenode:hover .tree-node-actions { opacity: 1 !important; }
+        .schema-tree .ant-tree-treenode { padding: 3px 0 !important; transition: background 0.15s; }
+        .schema-tree .ant-tree-node-content-wrapper { border-radius: 8px !important; padding: 6px 8px !important; transition: all 0.2s !important; }
+        .schema-tree .ant-tree-node-content-wrapper:hover { background: rgba(79,70,229,0.04) !important; }
+        .schema-tree .ant-tree-node-selected .ant-tree-node-content-wrapper { background: rgba(79,70,229,0.08) !important; box-shadow: inset 3px 0 0 #4f46e5; }
+        .schema-tree .ant-tree-indent-unit { width: 20px !important; }
+        .schema-tree .ant-tree-switcher { width: 20px !important; }
+      `}</style>
+      <Tree
+        className="schema-tree"
+        treeData={treeData}
+        expandedKeys={expandedKeys}
+        onExpand={(keys) => setExpandedKeys(keys)}
+        selectedKeys={selectedNodeId ? [selectedNodeId] : []}
+        onSelect={(keys) => {
+          if (keys.length === 0) return;
+          const key = String(keys[0]);
+          if (key.startsWith('g_')) {
+            setSelectedNode(key, 'group');
+          } else if (key.startsWith('a_')) {
+            setSelectedNode(key, 'attribute');
+          }
+        }}
+        showLine={false}
+        blockNode
+        style={{ background: 'transparent' }}
+      />
+    </>
   );
 }
