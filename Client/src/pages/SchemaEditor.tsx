@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Layout, Tabs, Input, Button, Space, Badge, Empty, Modal, Typography, Tooltip, Spin } from 'antd';
+import { Layout, Tabs, Input, Button, Space, Badge, Empty, Modal, Typography, Spin } from 'antd';
 import {
   DatabaseOutlined,
   PlusOutlined,
@@ -16,9 +16,42 @@ import { GroupForm, AttributeForm } from '../components/SchemaForm';
 import { SqlPreviewModal } from '../components/SqlPreviewModal';
 import { useTiers, useGroupMutations, useAttributeMutations } from '../hooks/useSchema';
 import { useEditorStore } from '../store/editorStore';
+import type { Group } from '../hooks/useSchema';
 
 const { Header, Sider, Content } = Layout;
 const { Text, Title } = Typography;
+
+/** Recursively flatten all groups (including subGroups) for entity lookup */
+function flattenGroups(groups: Group[]): Group[] {
+  const result: Group[] = [];
+  for (const g of groups) {
+    result.push(g);
+    if (g.subGroups && g.subGroups.length > 0) {
+      result.push(...flattenGroups(g.subGroups));
+    }
+  }
+  return result;
+}
+
+/** Count total attributes recursively */
+function countTotalAttrs(gs: Group[]): number {
+  let count = 0;
+  for (const g of gs) {
+    count += g.attributes?.length ?? 0;
+    if (g.subGroups) count += countTotalAttrs(g.subGroups);
+  }
+  return count;
+}
+
+/** Count total groups recursively */
+function countTotalGroups(gs: Group[]): number {
+  let count = 0;
+  for (const g of gs) {
+    count++;
+    if (g.subGroups) count += countTotalGroups(g.subGroups);
+  }
+  return count;
+}
 
 export default function SchemaEditor() {
   const { data: tiers, isLoading } = useTiers();
@@ -33,15 +66,12 @@ export default function SchemaEditor() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const selectedTier = tiers?.find(t => t.id === selectedTierId);
-  const allGroups = useMemo(() => tiers?.flatMap(t => t.groups) || [], [tiers]);
+  const allGroups = useMemo(() => {
+    if (!tiers) return [];
+    return tiers.flatMap(t => flattenGroups(t.groups));
+  }, [tiers]);
 
-  const tierTabs = [
-    { id: 1, name: 'Định danh cá nhân', nature: 'Cố định' },
-    { id: 2, name: 'Pháp lý', nature: 'Ít thay đổi' },
-    { id: 3, name: 'BHYT & Quyền lợi', nature: 'Thay đổi định kỳ' },
-    { id: 4, name: 'Di truyền bất biến', nature: 'Bất biến' },
-    { id: 5, name: 'Sinh học biến động', nature: 'Biến động liên tục' },
-  ];
+  const tierColor = selectedTier?.color || '#4f46e5';
 
   const handleAddSubGroup = (parentId: number) => {
     setTargetParentGroupId(parentId);
@@ -61,7 +91,6 @@ export default function SchemaEditor() {
     );
   }
 
-  // Extract the actual entity ID from composite tree keys like "g_0_116" or "a_5_42"
   const getEntityId = (key: string | null): number | null => {
     if (!key) return null;
     const parts = key.split('_');
@@ -73,19 +102,22 @@ export default function SchemaEditor() {
     ? allGroups.find(g => g.id === entityId)
     : allGroups.flatMap(g => g.attributes).find(a => a?.id === entityId);
 
-  const groups = selectedTier?.groups || [];
+  const groups = selectedTier?.groups ?? [];
 
-  const tabItems = tierTabs.map(tab => {
-    const tierData = tiers?.find(t => t.id === tab.id);
-    const groupCount = tierData?.groups.length || 0;
-    const attrCount = tierData?.groups.reduce((acc, g) => acc + g.attributes.length, 0) || 0;
+  const tabItems = (tiers ?? []).map(tab => {
+    const groupCount = countTotalGroups(tab.groups);
+    const attrCount = countTotalAttrs(tab.groups);
 
     return {
       key: String(tab.id),
       label: (
         <Space direction="vertical" size={0} align="center" style={{ padding: '4px 0' }}>
           <Space size={6}>
-            <Badge count={tab.id} size="small" style={{ backgroundColor: selectedTierId === tab.id ? '#4f46e5' : '#555' }} />
+            <Badge
+              count={tab.id}
+              size="small"
+              style={{ backgroundColor: selectedTierId === tab.id ? (tab.color || '#4f46e5') : '#999' }}
+            />
             <Text strong style={{ fontSize: 13 }}>{tab.name}</Text>
           </Space>
           <Text type="secondary" style={{ fontSize: 10 }}>
@@ -124,14 +156,14 @@ export default function SchemaEditor() {
         <Space size={8}>
           <Button icon={<SaveOutlined />} size="small">Lưu phiên bản</Button>
           <Button icon={<CodeOutlined />} size="small" onClick={() => setIsSqlPreviewOpen(true)}>Xem SQL</Button>
-          <Button type="primary" icon={<SyncOutlined />} size="small">Update Cấu trúc</Button>
+          <Button type="primary" icon={<SyncOutlined />} size="small">Cập nhật Cấu trúc</Button>
         </Space>
       </Header>
 
       <Layout>
         {/* SIDEBAR (TREE) */}
         <Sider
-          width={320}
+          width={380}
           style={{
             background: '#fafafa',
             borderRight: '1px solid rgba(0,0,0,0.06)',
@@ -140,33 +172,50 @@ export default function SchemaEditor() {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <div style={{ padding: '16px 16px 8px', flexShrink: 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <Text type="secondary" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>
-                  Cây dữ liệu
-                </Text>
-                <Tooltip title="Thêm nhóm gốc">
+            {/* Tier Header */}
+            {selectedTier && (
+              <div style={{
+                padding: '16px 16px 12px',
+                borderBottom: '1px solid rgba(0,0,0,0.06)',
+                background: `linear-gradient(135deg, ${tierColor}08, ${tierColor}03)`,
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                  <div>
+                    <Text strong style={{ fontSize: 15, color: tierColor }}>
+                      Tầng {selectedTier.id}: {selectedTier.name}
+                    </Text>
+                    <div>
+                      <Text type="secondary" style={{ fontSize: 11, fontStyle: 'italic' }}>
+                        {selectedTier.description}
+                      </Text>
+                    </div>
+                  </div>
                   <Button
-                    type="text"
+                    type="primary"
                     size="small"
                     icon={<PlusOutlined />}
                     onClick={() => { setTargetParentGroupId(null); setCreateGroupOpen(true); }}
-                    style={{ color: '#4f46e5' }}
-                  />
-                </Tooltip>
-              </div>
-              <Input.Search
-                placeholder="Tìm nhóm, thuộc tính..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                allowClear
-                size="middle"
-              />
-            </div>
+                    style={{ background: tierColor, borderColor: tierColor, borderRadius: 6, fontSize: 12 }}
+                  >
+                    Thêm
+                  </Button>
+                </div>
 
-            <div className="custom-scrollbar" style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '8px 8px 16px' }}>
+                <Input.Search
+                  placeholder="Tìm nhóm, thuộc tính..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  allowClear
+                  size="middle"
+                  style={{ marginTop: 4 }}
+                />
+              </div>
+            )}
+
+            <div className="custom-scrollbar" style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '8px 4px 16px' }}>
               <SchemaTree
                 groups={groups}
+                tierColor={tierColor}
                 onAddSubGroup={handleAddSubGroup}
                 onAddAttribute={handleAddAttribute}
                 onDeleteGroup={(id) => deleteGroup.mutate(id)}
@@ -204,9 +253,9 @@ export default function SchemaEditor() {
                   <Space size={20} align="start">
                     <div style={{
                       width: 56, height: 56, borderRadius: 20,
-                      background: '#4f46e5',
+                      background: tierColor,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      boxShadow: '0 8px 24px rgba(79,70,229,0.3)',
+                      boxShadow: `0 8px 24px ${tierColor}4D`,
                     }}>
                       {selectedNodeType === 'group'
                         ? <AppstoreOutlined style={{ fontSize: 28, color: '#fff' }} />
@@ -260,10 +309,10 @@ export default function SchemaEditor() {
 
                 <div style={{
                   marginTop: 24, padding: '12px 20px', borderRadius: 12,
-                  background: 'rgba(79,70,229,0.05)', border: '1px solid rgba(79,70,229,0.1)',
+                  background: `${tierColor}08`, border: `1px solid ${tierColor}1A`,
                   display: 'flex', alignItems: 'center', gap: 8,
                 }}>
-                  <InfoCircleOutlined style={{ color: '#4f46e5' }} />
+                  <InfoCircleOutlined style={{ color: tierColor }} />
                   <Text type="secondary" style={{ fontSize: 12, fontStyle: 'italic' }}>
                     Vui lòng kiểm tra kỹ các ràng buộc SQL trước khi lưu thay đổi.
                   </Text>

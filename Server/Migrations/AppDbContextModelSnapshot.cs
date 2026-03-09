@@ -256,6 +256,10 @@ namespace Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TableNameFull")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TierId")
                         .HasColumnType("int");
 
@@ -270,12 +274,47 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
+                            Id = 401,
+                            Cardinality = "1:N",
+                            Description = "Danh mục gốc về dược phẩm",
+                            IsCore = true,
+                            Name = "Danh mục dược học",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 4
+                        },
+                        new
+                        {
+                            Id = 402,
+                            Cardinality = "1:N",
+                            Description = "Dữ liệu dược lâm sàng của bệnh nhân",
+                            IsCore = true,
+                            Name = "Dữ liệu dược học bệnh nhân",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 4
+                        },
+                        new
+                        {
+                            Id = 403,
+                            Cardinality = "1:N",
+                            Description = "Quy tắc cảnh báo và nhật ký dược",
+                            IsCore = true,
+                            Name = "Cảnh báo & Lịch sử dược",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 4
+                        },
+                        new
+                        {
                             Id = 1,
                             Cardinality = "1:N",
                             Description = "Danh mục nhóm dược lý",
                             IsCore = true,
-                            Name = "Nhóm Dược Lý",
-                            SqlTableName = "bnt4_nhom_duoc_ly",
+                            Name = "DRUG_GROUP (Nhóm dược lý)",
+                            ParentGroupId = 401,
+                            SqlTableName = "bnt4_nhduly",
+                            TableNameFull = "nhomduocly",
                             TierId = 4
                         },
                         new
@@ -284,8 +323,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Danh mục hoạt chất",
                             IsCore = true,
-                            Name = "Hoạt Chất",
-                            SqlTableName = "bnt4_hoat_chat",
+                            Name = "DRUG_SUBSTANCE (Hoạt chất)",
+                            ParentGroupId = 401,
+                            SqlTableName = "bnt4_hoatch",
+                            TableNameFull = "hoatchat",
                             TierId = 4
                         },
                         new
@@ -294,8 +335,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Quy tắc dị ứng chéo",
                             IsCore = true,
-                            Name = "Dị ứng Chéo",
-                            SqlTableName = "bnt4_di_ung_cheo",
+                            Name = "CROSS_REACTIVITY (Dị ứng chéo)",
+                            ParentGroupId = 401,
+                            SqlTableName = "bnt4_ducheo",
+                            TableNameFull = "duungcheo",
                             TierId = 4
                         },
                         new
@@ -304,8 +347,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Tương tác giữa các hoạt chất",
                             IsCore = true,
-                            Name = "Tương Tác Thuốc",
-                            SqlTableName = "bnt4_tuong_tac_thuoc",
+                            Name = "DRUG_INTERACTION (Tương tác thuốc)",
+                            ParentGroupId = 401,
+                            SqlTableName = "bnt4_tuatac",
+                            TableNameFull = "tuongtacthuoc",
                             TierId = 4
                         },
                         new
@@ -314,8 +359,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Hồ sơ dị ứng của bệnh nhân",
                             IsCore = true,
-                            Name = "Dị Ứng Bệnh Nhân",
-                            SqlTableName = "bnt4_di_ung_benh_nhan",
+                            Name = "PATIENT_ALLERGY (Dị ứng ADR)",
+                            ParentGroupId = 402,
+                            SqlTableName = "bnt4_diungb",
+                            TableNameFull = "diungb",
                             TierId = 4
                         },
                         new
@@ -324,8 +371,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Bệnh lý nền bất biến",
                             IsCore = true,
-                            Name = "Bệnh Nền",
-                            SqlTableName = "bnt4_benh_nen",
+                            Name = "PATIENT_CONDITION (Bệnh nền)",
+                            ParentGroupId = 402,
+                            SqlTableName = "bnt4_bnenan",
+                            TableNameFull = "bnenan",
                             TierId = 4
                         },
                         new
@@ -334,8 +383,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Bộ quy tắc cảnh báo lâm sàng",
                             IsCore = true,
-                            Name = "Quy Tắc Cảnh Báo",
-                            SqlTableName = "bnt4_quy_tac_canh_bao",
+                            Name = "DRUG_ALERT_RULE (Quy tắc cảnh báo)",
+                            ParentGroupId = 403,
+                            SqlTableName = "bnt4_qtcanh",
+                            TableNameFull = "qtcanh",
                             TierId = 4
                         },
                         new
@@ -344,9 +395,66 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Lịch sử cảnh báo đã phát cho bệnh nhân",
                             IsCore = true,
-                            Name = "Nhật Ký Cảnh Báo",
-                            SqlTableName = "bnt4_nhat_ky_canh_bao",
+                            Name = "ALERT_LOG (Lịch sử cảnh báo)",
+                            ParentGroupId = 403,
+                            SqlTableName = "bnt4_nkcbao",
+                            TableNameFull = "nkcbao",
                             TierId = 4
+                        },
+                        new
+                        {
+                            Id = 501,
+                            Cardinality = "1:N",
+                            Description = "Danh mục gốc về sinh học",
+                            IsCore = true,
+                            Name = "Danh mục gốc sinh học",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 5
+                        },
+                        new
+                        {
+                            Id = 502,
+                            Cardinality = "1:N",
+                            Description = "Danh mục xét nghiệm và khoảng tham chiếu",
+                            IsCore = true,
+                            Name = "Danh mục xét nghiệm & tham chiếu",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 5
+                        },
+                        new
+                        {
+                            Id = 503,
+                            Cardinality = "1:N",
+                            Description = "Chỉ định và kết quả đo lường",
+                            IsCore = true,
+                            Name = "Dữ liệu đo lường bệnh nhân",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 5
+                        },
+                        new
+                        {
+                            Id = 504,
+                            Cardinality = "1:N",
+                            Description = "Bối cảnh chuyên sâu theo loại xét nghiệm",
+                            IsCore = true,
+                            Name = "Context đặc thù theo loại XN",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 5
+                        },
+                        new
+                        {
+                            Id = 505,
+                            Cardinality = "1:N",
+                            Description = "Liên kết tương quan và quy tắc cảnh báo",
+                            IsCore = true,
+                            Name = "Liên kết thông minh & Cảnh báo XN",
+                            SqlTableName = "",
+                            TableNameFull = "",
+                            TierId = 5
                         },
                         new
                         {
@@ -354,8 +462,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Hệ cơ quan sinh học",
                             IsCore = true,
-                            Name = "Hệ Cơ Quan",
-                            SqlTableName = "bnt5_he_co_quan",
+                            Name = "BIO_SYSTEM (Hệ cơ quan)",
+                            ParentGroupId = 501,
+                            SqlTableName = "bnt5_hecoquan",
+                            TableNameFull = "hecoquan",
                             TierId = 5
                         },
                         new
@@ -364,18 +474,22 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Cấu trúc chi tiết cơ quan",
                             IsCore = true,
-                            Name = "Cấu Trúc Sinh Học",
-                            SqlTableName = "bnt5_cau_truc_sinh_hoc",
+                            Name = "BIO_STRUCTURE (Cấu trúc sinh học)",
+                            ParentGroupId = 501,
+                            SqlTableName = "bnt5_cautruc",
+                            TableNameFull = "cautruc",
                             TierId = 5
                         },
                         new
                         {
                             Id = 103,
                             Cardinality = "1:N",
-                            Description = "Chất hoá học hoặc tín hiệu đo lường",
+                            Description = "Chất hóa học hoặc tín hiệu đo lường",
                             IsCore = true,
-                            Name = "Chất / Tín Hiệu",
-                            SqlTableName = "bnt5_chat_tin_hieu",
+                            Name = "BIO_SUBSTANCE (Chất / Tín hiệu)",
+                            ParentGroupId = 501,
+                            SqlTableName = "bnt5_chatinhieu",
+                            TableNameFull = "chatinhieu",
                             TierId = 5
                         },
                         new
@@ -384,8 +498,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Danh mục xét nghiệm đo lường",
                             IsCore = true,
-                            Name = "DM Xét Nghiệm",
-                            SqlTableName = "bnt5_dm_xet_nghiem",
+                            Name = "TEST_CATALOG (Danh mục XN)",
+                            ParentGroupId = 502,
+                            SqlTableName = "bnt5_dmxnghiem",
+                            TableNameFull = "dmxnghiem",
                             TierId = 5
                         },
                         new
@@ -394,8 +510,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Reference ranges cho XN",
                             IsCore = true,
-                            Name = "Khoảng Tham Chiếu",
-                            SqlTableName = "bnt5_khoang_tham_chieu",
+                            Name = "REF_RANGE (Khoảng tham chiếu)",
+                            ParentGroupId = 502,
+                            SqlTableName = "bnt5_ktchieucu",
+                            TableNameFull = "ktchieucu",
                             TierId = 5
                         },
                         new
@@ -404,8 +522,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Y lệnh chỉ định XN",
                             IsCore = true,
-                            Name = "Chỉ Định Đo Lường",
-                            SqlTableName = "bnt5_chi_dinh_do_luong",
+                            Name = "MEASUREMENT_ORDER (Lệnh chỉ định)",
+                            ParentGroupId = 503,
+                            SqlTableName = "bnt5_ychidinh",
+                            TableNameFull = "ychidinh",
                             TierId = 5
                         },
                         new
@@ -414,68 +534,82 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Kết quả đo lường sinh học",
                             IsCore = true,
-                            Name = "Kết Quả Đo Lường",
-                            SqlTableName = "bnt5_ket_qua_do_luong",
+                            Name = "MEASUREMENT_RESULT (Kết quả đo lường)",
+                            ParentGroupId = 503,
+                            SqlTableName = "bnt5_ketqua",
+                            TableNameFull = "ketqua",
                             TierId = 5
                         },
                         new
                         {
                             Id = 108,
-                            Cardinality = "1:N",
-                            Description = "Bối cảnh đo sinh hoá",
+                            Cardinality = "1:1",
+                            Description = "Bối cảnh đo sinh hóa",
                             IsCore = true,
-                            Name = "Context Sinh Hoá",
-                            SqlTableName = "bnt5_context_sinh_hoa",
+                            Name = "CTX_CHEMICAL (Sinh hóa)",
+                            ParentGroupId = 504,
+                            SqlTableName = "bnt5_csinhhoa",
+                            TableNameFull = "csinhhoa",
                             TierId = 5
                         },
                         new
                         {
                             Id = 109,
-                            Cardinality = "1:N",
+                            Cardinality = "1:1",
                             Description = "Bối cảnh định kỳ của sinh hiệu",
                             IsCore = true,
-                            Name = "Context Sinh Hiệu",
-                            SqlTableName = "bnt5_context_sinh_hieu",
+                            Name = "CTX_VITAL_SIGN (Sinh hiệu)",
+                            ParentGroupId = 504,
+                            SqlTableName = "bnt5_cshieusinh",
+                            TableNameFull = "cshieusinh",
                             TierId = 5
                         },
                         new
                         {
                             Id = 110,
-                            Cardinality = "1:N",
+                            Cardinality = "1:1",
                             Description = "Bối cảnh tế bào",
                             IsCore = true,
-                            Name = "Context Tế Bào",
-                            SqlTableName = "bnt5_context_te_bao",
+                            Name = "CTX_CELL (Tế bào)",
+                            ParentGroupId = 504,
+                            SqlTableName = "bnt5_ctebao",
+                            TableNameFull = "ctebao",
                             TierId = 5
                         },
                         new
                         {
                             Id = 111,
-                            Cardinality = "1:N",
+                            Cardinality = "1:1",
                             Description = "Bối cảnh hình ảnh",
                             IsCore = true,
-                            Name = "Context Hình Ảnh",
-                            SqlTableName = "bnt5_context_hinh_anh",
+                            Name = "CTX_IMAGE (Hình ảnh)",
+                            ParentGroupId = 504,
+                            SqlTableName = "bnt5_chinhanh",
+                            TableNameFull = "chinhanh",
                             TierId = 5
                         },
                         new
                         {
                             Id = 112,
-                            Cardinality = "1:N",
+                            Cardinality = "1:1",
                             Description = "Bối cảnh điện sinh lý",
                             IsCore = true,
-                            Name = "Context Điện Sinh Lý",
-                            SqlTableName = "bnt5_context_dien_sinh_ly",
+                            Name = "CTX_ELECTRICAL (Điện sinh lý)",
+                            ParentGroupId = 504,
+                            SqlTableName = "bnt5_diensinhly",
+                            TableNameFull = "diensinhly",
                             TierId = 5
                         },
                         new
                         {
                             Id = 113,
                             Cardinality = "1:N",
-                            Description = "Mối liên hệ tương quan giữa các xét nghiệm với nhau",
+                            Description = "Mối liên hệ tương quan giữa các xét nghiệm",
                             IsCore = true,
-                            Name = "Liên Kết Xét Nghiệm",
-                            SqlTableName = "bnt5_lien_ket_xet_nghiem",
+                            Name = "TEST_RELATION (XN liên quan)",
+                            ParentGroupId = 505,
+                            SqlTableName = "bnt5_xnlienquan",
+                            TableNameFull = "xnlienquan",
                             TierId = 5
                         },
                         new
@@ -484,8 +618,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Quy tắc cảnh báo XN sinh học",
                             IsCore = true,
-                            Name = "Quy Tắc Cảnh Báo XN",
-                            SqlTableName = "bnt5_quy_tac_canh_bao_xn",
+                            Name = "ALERT_RULE (Cảnh báo XN)",
+                            ParentGroupId = 505,
+                            SqlTableName = "bnt5_qtcbxn",
+                            TableNameFull = "qtcbxn",
                             TierId = 5
                         });
                 });
@@ -561,9 +697,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Mã Nhóm",
+                            Name = "Mã nhóm",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_ma_nhom"
+                            SqlColumnName = "bnt4_nhomduocly_manhom"
                         },
                         new
                         {
@@ -576,9 +712,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Tên Tiếng Việt",
+                            Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_ten_tieng_viet"
+                            SqlColumnName = "bnt4_nhomduocly_tentiengviet"
                         },
                         new
                         {
@@ -590,26 +726,26 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = false,
-                            Name = "Tên Tiếng Anh",
+                            IsRequired = true,
+                            Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_ten_tieng_anh"
+                            SqlColumnName = "bnt4_nhomduocly_tentienganh"
                         },
                         new
                         {
                             Id = 40104,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_nhom_duoc_ly(Id)",
+                            FkTarget = "bnt4_nhduly(Id)",
                             GroupId = 1,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Nhóm Cha ID",
+                            Name = "Nhóm cha",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_nhom_cha_id"
+                            SqlColumnName = "bnt4_nhomduocly_nhomcha"
                         },
                         new
                         {
@@ -622,9 +758,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Mục Tiêu Sinh Học",
+                            Name = "Mục tiêu sinh học",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_muc_tieu_sinh_hoc"
+                            SqlColumnName = "bnt4_nhomduocly_muctieusinhhoc"
                         },
                         new
                         {
@@ -639,7 +775,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cơ chế TV",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_co_che_tv"
+                            SqlColumnName = "bnt4_nhomduocly_cochetv"
                         },
                         new
                         {
@@ -654,7 +790,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cơ chế TA",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_co_che_ta"
+                            SqlColumnName = "bnt4_nhomduocly_cocheta"
                         },
                         new
                         {
@@ -669,39 +805,39 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cấu trúc hóa học",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_cau_truc_hoa_hoc"
+                            SqlColumnName = "bnt4_nhomduocly_cautruchoahoc"
                         },
                         new
                         {
                             Id = 40109,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(10)",
-                            DefaultValue = "1.0",
+                            DefaultValue = "'1.0'",
                             Description = "",
                             GroupId = 1,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_phien_ban"
+                            SqlColumnName = "bnt4_nhomduocly_phienban"
                         },
                         new
                         {
                             Id = 40110,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
-                            DefaultValue = "ACTIVE",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
                             Description = "",
                             GroupId = 1,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhom_duoc_ly_trang_thai"
+                            SqlColumnName = "bnt4_nhomduocly_trangthai"
                         },
                         new
                         {
@@ -714,9 +850,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Mã Hoạt Chất",
+                            Name = "Mã hoạt chất",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_ma_hoat_chat"
+                            SqlColumnName = "bnt4_hoatchat_mahoatchat"
                         },
                         new
                         {
@@ -729,9 +865,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Tên Tiếng Việt",
+                            Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_ten_tieng_viet"
+                            SqlColumnName = "bnt4_hoatchat_tentiengviet"
                         },
                         new
                         {
@@ -743,26 +879,26 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = false,
-                            Name = "Tên Tiếng Anh",
+                            IsRequired = true,
+                            Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_ten_tieng_anh"
+                            SqlColumnName = "bnt4_hoatchat_tentienganh"
                         },
                         new
                         {
                             Id = 40204,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_nhom_duoc_ly(Id)",
+                            FkTarget = "bnt4_nhduly(Id)",
                             GroupId = 2,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Nhóm Dược Lý ID",
+                            Name = "Nhóm dược lý",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_nhom_duoc_ly_id"
+                            SqlColumnName = "bnt4_hoatchat_nhomduocly"
                         },
                         new
                         {
@@ -775,9 +911,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "ATC Code",
+                            Name = "Mã ATC",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_atc_code"
+                            SqlColumnName = "bnt4_hoatchat_maatc"
                         },
                         new
                         {
@@ -792,7 +928,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Công thức phân tử",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_cong_thuc_phan_tu"
+                            SqlColumnName = "bnt4_hoatchat_congthucphantu"
                         },
                         new
                         {
@@ -805,9 +941,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Khối lượng P.Tử",
+                            Name = "Khối lượng phân tử",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_khoi_luong_ptu"
+                            SqlColumnName = "bnt4_hoatchat_khoiluongphantu"
                         },
                         new
                         {
@@ -822,7 +958,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Thời gian bán thải",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_thoi_gian_ban_thai"
+                            SqlColumnName = "bnt4_hoatchat_thoigianbanthai"
                         },
                         new
                         {
@@ -837,77 +973,77 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Sinh khả dụng",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_sinh_kha_dung"
+                            SqlColumnName = "bnt4_hoatchat_sinhkhadung"
                         },
                         new
                         {
                             Id = 40210,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(10)",
-                            DefaultValue = "1.0",
+                            DefaultValue = "'1.0'",
                             Description = "",
                             GroupId = 2,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_phien_ban"
+                            SqlColumnName = "bnt4_hoatchat_phienban"
                         },
                         new
                         {
                             Id = 40211,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
-                            DefaultValue = "ACTIVE",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
                             Description = "",
                             GroupId = 2,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt4_hoat_chat_trang_thai"
+                            SqlColumnName = "bnt4_hoatchat_trangthai"
                         },
                         new
                         {
                             Id = 40301,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoat_chat(Id)",
+                            FkTarget = "bnt4_hoatch(Id)",
                             GroupId = 3,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Chất Gây Dị Ứng (Source)",
+                            Name = "Chất nguồn",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_cheo_chat_gay_di_ung_source"
+                            SqlColumnName = "bnt4_duungcheo_chatnguon"
                         },
                         new
                         {
                             Id = 40302,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoat_chat(Id)",
+                            FkTarget = "bnt4_hoatch(Id)",
                             GroupId = 3,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Chất Dị Ứng Chéo (Target)",
+                            Name = "Chất nhận",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_cheo_chat_di_ung_cheo_target"
+                            SqlColumnName = "bnt4_duungcheo_chatnhan"
                         },
                         new
                         {
                             Id = 40303,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 3,
                             HasPermission = false,
@@ -916,7 +1052,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_cheo_muc_do"
+                            SqlColumnName = "bnt4_duungcheo_mucdo"
                         },
                         new
                         {
@@ -931,22 +1067,22 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_cheo_mo_ta"
+                            SqlColumnName = "bnt4_duungcheo_mota"
                         },
                         new
                         {
                             Id = 40305,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 3,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Mức độ bằng chứng",
+                            Name = "Mức bằng chứng",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_cheo_muc_do_bang_chung"
+                            SqlColumnName = "bnt4_duungcheo_mucbangchung"
                         },
                         new
                         {
@@ -959,18 +1095,33 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Ngày tạo",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_cheo_ngay_tao"
+                            SqlColumnName = "bnt4_duungcheo_ngaytao"
+                        },
+                        new
+                        {
+                            Id = 40307,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            Description = "",
+                            GroupId = 3,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày cập nhật",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_duungcheo_ngaycapnhat"
                         },
                         new
                         {
                             Id = 40401,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoat_chat(Id)",
+                            FkTarget = "bnt4_hoatch(Id)",
                             GroupId = 4,
                             HasPermission = false,
                             IsCore = true,
@@ -978,15 +1129,15 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Thuốc 1",
                             Scope = "System",
-                            SqlColumnName = "bnt4_tuong_tac_thuoc_thuoc_1"
+                            SqlColumnName = "bnt4_tuongtacthuoc_thuoc1"
                         },
                         new
                         {
                             Id = 40402,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoat_chat(Id)",
+                            FkTarget = "bnt4_hoatch(Id)",
                             GroupId = 4,
                             HasPermission = false,
                             IsCore = true,
@@ -994,7 +1145,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Thuốc 2",
                             Scope = "System",
-                            SqlColumnName = "bnt4_tuong_tac_thuoc_thuoc_2"
+                            SqlColumnName = "bnt4_tuongtacthuoc_thuoc2"
                         },
                         new
                         {
@@ -1009,13 +1160,13 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tác dụng",
                             Scope = "System",
-                            SqlColumnName = "bnt4_tuong_tac_thuoc_tac_dung"
+                            SqlColumnName = "bnt4_tuongtacthuoc_tacdung"
                         },
                         new
                         {
                             Id = 40404,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 4,
                             HasPermission = false,
@@ -1024,7 +1175,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_tuong_tac_thuoc_muc_do"
+                            SqlColumnName = "bnt4_tuongtacthuoc_mucdo"
                         },
                         new
                         {
@@ -1039,7 +1190,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Xử trí",
                             Scope = "System",
-                            SqlColumnName = "bnt4_tuong_tac_thuoc_xu_tri"
+                            SqlColumnName = "bnt4_tuongtacthuoc_xutri"
                         },
                         new
                         {
@@ -1054,13 +1205,45 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Bằng chứng",
                             Scope = "System",
-                            SqlColumnName = "bnt4_tuong_tac_thuoc_bang_chung"
+                            SqlColumnName = "bnt4_tuongtacthuoc_bangchung"
+                        },
+                        new
+                        {
+                            Id = 40407,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 4,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_tuongtacthuoc_phienban"
+                        },
+                        new
+                        {
+                            Id = 40408,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
+                            Description = "",
+                            GroupId = 4,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_tuongtacthuoc_trangthai"
                         },
                         new
                         {
                             Id = 40501,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
                             FkTarget = "Patient(Id)",
                             GroupId = 5,
@@ -1068,31 +1251,31 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Bệnh nhân ID",
+                            Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_benh_nhan_id"
+                            SqlColumnName = "bnt4_diungb_mabenhnhan"
                         },
                         new
                         {
                             Id = 40502,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoat_chat(Id)",
+                            FkTarget = "bnt4_hoatch(Id)",
                             GroupId = 5,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Hoạt Chất ID",
+                            Name = "Hoạt chất",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_hoat_chat_id"
+                            SqlColumnName = "bnt4_diungb_hoatchat"
                         },
                         new
                         {
                             Id = 40503,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 5,
                             HasPermission = false,
@@ -1101,26 +1284,11 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_muc_do"
+                            SqlColumnName = "bnt4_diungb_mucdo"
                         },
                         new
                         {
                             Id = 40504,
-                            Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
-                            Description = "",
-                            GroupId = 5,
-                            HasPermission = false,
-                            IsCore = true,
-                            IsHidden = false,
-                            IsRequired = true,
-                            Name = "Loại phản ứng",
-                            Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_loai_phan_ung"
-                        },
-                        new
-                        {
-                            Id = 40505,
                             Cardinality = "1:1",
                             DataType = "DATE",
                             Description = "",
@@ -1129,9 +1297,24 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Ngày phát hiện",
+                            Name = "Ngày khởi phát",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_ngay_phat_hien"
+                            SqlColumnName = "bnt4_diungb_ngaykhoiphat"
+                        },
+                        new
+                        {
+                            Id = 40505,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(50)",
+                            Description = "",
+                            GroupId = 5,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Loại phản ứng",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_diungb_loaiphanung"
                         },
                         new
                         {
@@ -1144,10 +1327,10 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Đã khỏi",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_da_khoi"
+                            SqlColumnName = "bnt4_diungb_dakhoi"
                         },
                         new
                         {
@@ -1162,13 +1345,44 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt4_di_ung_benh_nhan_ghi_chu"
+                            SqlColumnName = "bnt4_diungb_ghichu"
+                        },
+                        new
+                        {
+                            Id = 40508,
+                            Cardinality = "1:1",
+                            DataType = "REF",
+                            Description = "",
+                            FkTarget = "AspNetUsers(Id)",
+                            GroupId = 5,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Xác nhận bởi",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_diungb_xacnhanboi"
+                        },
+                        new
+                        {
+                            Id = 40509,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            Description = "",
+                            GroupId = 5,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày xác nhận",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_diungb_ngayxacnhan"
                         },
                         new
                         {
                             Id = 40601,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
                             FkTarget = "Patient(Id)",
                             GroupId = 6,
@@ -1176,9 +1390,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Bệnh nhân ID",
+                            Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt4_benh_nen_benh_nhan_id"
+                            SqlColumnName = "bnt4_bnenan_mabenhnhan"
                         },
                         new
                         {
@@ -1193,7 +1407,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã ICD",
                             Scope = "System",
-                            SqlColumnName = "bnt4_benh_nen_ma_icd"
+                            SqlColumnName = "bnt4_bnenan_maicd"
                         },
                         new
                         {
@@ -1208,13 +1422,29 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày chẩn đoán",
                             Scope = "System",
-                            SqlColumnName = "bnt4_benh_nen_ngay_chan_doan"
+                            SqlColumnName = "bnt4_bnenan_ngaychandoan"
                         },
                         new
                         {
                             Id = 40604,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "REF",
+                            Description = "",
+                            FkTarget = "AspNetUsers(Id)",
+                            GroupId = 6,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Chẩn đoán bởi",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_bnenan_chandoanboi"
+                        },
+                        new
+                        {
+                            Id = 40605,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 6,
                             HasPermission = false,
@@ -1223,26 +1453,27 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_benh_nen_muc_do"
+                            SqlColumnName = "bnt4_bnenan_mucdo"
                         },
                         new
                         {
-                            Id = 40605,
+                            Id = 40606,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
                             Description = "",
                             GroupId = 6,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt4_benh_nen_trang_thai"
+                            SqlColumnName = "bnt4_bnenan_trangthai"
                         },
                         new
                         {
-                            Id = 40606,
+                            Id = 40607,
                             Cardinality = "1:1",
                             DataType = "NVARCHAR(MAX)",
                             Description = "",
@@ -1253,7 +1484,23 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt4_benh_nen_ghi_chu"
+                            SqlColumnName = "bnt4_bnenan_ghichu"
+                        },
+                        new
+                        {
+                            Id = 40608,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            DefaultValue = "GETDATE()",
+                            Description = "",
+                            GroupId = 6,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày tạo",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_bnenan_ngaytao"
                         },
                         new
                         {
@@ -1268,7 +1515,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã quy tắc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_ma_quy_tac"
+                            SqlColumnName = "bnt4_qtcanh_maquytac"
                         },
                         new
                         {
@@ -1283,13 +1530,13 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_mo_ta"
+                            SqlColumnName = "bnt4_qtcanh_mota"
                         },
                         new
                         {
                             Id = 40703,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 7,
                             HasPermission = false,
@@ -1298,7 +1545,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_muc_do"
+                            SqlColumnName = "bnt4_qtcanh_mucdo"
                         },
                         new
                         {
@@ -1313,7 +1560,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Hành động",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_hanh_dong"
+                            SqlColumnName = "bnt4_qtcanh_hanhdong"
                         },
                         new
                         {
@@ -1325,10 +1572,10 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Điều kiện (JSON)",
+                            IsRequired = false,
+                            Name = "Điều kiện kích hoạt",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_dieu_kien_json"
+                            SqlColumnName = "bnt4_qtcanh_dieukienkichhoat"
                         },
                         new
                         {
@@ -1341,9 +1588,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Tuổi áp dụng (Min)",
+                            Name = "Tuổi tối thiểu",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_tuoi_ap_dung_min"
+                            SqlColumnName = "bnt4_qtcanh_tuoitoithieu"
                         },
                         new
                         {
@@ -1356,15 +1603,15 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Tuổi áp dụng (Max)",
+                            Name = "Tuổi tối đa",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_tuoi_ap_dung_max"
+                            SqlColumnName = "bnt4_qtcanh_tuoitoida"
                         },
                         new
                         {
                             Id = 40708,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(20)",
+                            DataType = "VARCHAR(10)",
                             Description = "",
                             GroupId = 7,
                             HasPermission = false,
@@ -1373,13 +1620,29 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Giới tính",
                             Scope = "System",
-                            SqlColumnName = "bnt4_quy_tac_canh_bao_gioi_tinh"
+                            SqlColumnName = "bnt4_qtcanh_gioitinh"
+                        },
+                        new
+                        {
+                            Id = 40709,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 7,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_qtcanh_phienban"
                         },
                         new
                         {
                             Id = 40801,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
                             FkTarget = "Patient(Id)",
                             GroupId = 8,
@@ -1387,9 +1650,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Bệnh nhân ID",
+                            Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhat_ky_canh_bao_benh_nhan_id"
+                            SqlColumnName = "bnt4_nkcbao_mabenhnhan"
                         },
                         new
                         {
@@ -1401,26 +1664,26 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = false,
-                            Name = "Đơn thuốc ID",
+                            IsRequired = true,
+                            Name = "Đơn thuốc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhat_ky_canh_bao_don_thuoc_id"
+                            SqlColumnName = "bnt4_nkcbao_donthuoc"
                         },
                         new
                         {
                             Id = 40803,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_quy_tac_canh_bao(Id)",
+                            FkTarget = "bnt4_qtcanh(Id)",
                             GroupId = 8,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Quy tắc ID",
+                            Name = "Quy tắc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhat_ky_canh_bao_quy_tac_id"
+                            SqlColumnName = "bnt4_nkcbao_quytac"
                         },
                         new
                         {
@@ -1432,14 +1695,29 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Mã Thuốc",
+                            IsRequired = false,
+                            Name = "Mã thuốc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhat_ky_canh_bao_ma_thuoc"
+                            SqlColumnName = "bnt4_nkcbao_mathuoc"
                         },
                         new
                         {
                             Id = 40805,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            Description = "",
+                            GroupId = 8,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = true,
+                            Name = "Mức độ",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_nkcbao_mucdo"
+                        },
+                        new
+                        {
+                            Id = 40806,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(50)",
                             Description = "",
@@ -1447,10 +1725,88 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Quyết định của BS",
+                            IsRequired = false,
+                            Name = "Hành động xử trí",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nhat_ky_canh_bao_quyet_dinh_cua_bs"
+                            SqlColumnName = "bnt4_nkcbao_hanhdongxutri"
+                        },
+                        new
+                        {
+                            Id = 40807,
+                            Cardinality = "1:1",
+                            DataType = "REF",
+                            Description = "",
+                            FkTarget = "AspNetUsers(Id)",
+                            GroupId = 8,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Xác nhận bởi",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_nkcbao_xacnhanboi"
+                        },
+                        new
+                        {
+                            Id = 40808,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 8,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú xác nhận",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_nkcbao_ghichuxacnhan"
+                        },
+                        new
+                        {
+                            Id = 40809,
+                            Cardinality = "1:1",
+                            DataType = "REF",
+                            Description = "",
+                            FkTarget = "AspNetUsers(Id)",
+                            GroupId = 8,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Xem xét bởi",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_nkcbao_xemxetboi"
+                        },
+                        new
+                        {
+                            Id = 40810,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            Description = "",
+                            GroupId = 8,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày xem xét",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_nkcbao_ngayxemxet"
+                        },
+                        new
+                        {
+                            Id = 40811,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            DefaultValue = "GETDATE()",
+                            Description = "",
+                            GroupId = 8,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Thời gian",
+                            Scope = "System",
+                            SqlColumnName = "bnt4_nkcbao_thoigian"
                         },
                         new
                         {
@@ -1463,9 +1819,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Mã Hệ",
+                            Name = "Mã hệ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_ma_he"
+                            SqlColumnName = "bnt5_hecoquan_mahe"
                         },
                         new
                         {
@@ -1478,9 +1834,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Tên Tiếng Việt",
+                            Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_ten_tieng_viet"
+                            SqlColumnName = "bnt5_hecoquan_tentiengviet"
                         },
                         new
                         {
@@ -1492,10 +1848,10 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = false,
-                            Name = "Tên Tiếng Anh",
+                            IsRequired = true,
+                            Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_ten_tieng_anh"
+                            SqlColumnName = "bnt5_hecoquan_tentienganh"
                         },
                         new
                         {
@@ -1510,70 +1866,102 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_mo_ta"
+                            SqlColumnName = "bnt5_hecoquan_mota"
                         },
                         new
                         {
                             Id = 50105,
                             Cardinality = "1:1",
                             DataType = "INT",
+                            DefaultValue = "0",
                             Description = "",
                             GroupId = 101,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Sắp xếp",
+                            Name = "Thứ tự sắp xếp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_sap_xep"
+                            SqlColumnName = "bnt5_hecoquan_thutusapxep"
                         },
                         new
                         {
                             Id = 50106,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(10)",
-                            DefaultValue = "1.0",
+                            DefaultValue = "'1.0'",
                             Description = "",
                             GroupId = 101,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_phien_ban"
+                            SqlColumnName = "bnt5_hecoquan_phienban"
                         },
                         new
                         {
                             Id = 50107,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(50)",
-                            DefaultValue = "ACTIVE",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
                             Description = "",
                             GroupId = 101,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_he_co_quan_trang_thai"
+                            SqlColumnName = "bnt5_hecoquan_trangthai"
+                        },
+                        new
+                        {
+                            Id = 50108,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            DefaultValue = "GETDATE()",
+                            Description = "",
+                            GroupId = 101,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày tạo",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_hecoquan_ngaytao"
+                        },
+                        new
+                        {
+                            Id = 50109,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            Description = "",
+                            GroupId = 101,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày cập nhật",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_hecoquan_ngaycapnhat"
                         },
                         new
                         {
                             Id = 50201,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_he_co_quan(Id)",
+                            FkTarget = "bnt5_hecoquan(Id)",
                             GroupId = 102,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Hệ Cơ Quan ID",
+                            Name = "Hệ cơ quan",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_he_co_quan_id"
+                            SqlColumnName = "bnt5_cautruc_hecoquan"
                         },
                         new
                         {
@@ -1586,9 +1974,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Mã Cấu Trúc",
+                            Name = "Mã cấu trúc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_ma_cau_truc"
+                            SqlColumnName = "bnt5_cautruc_macautruc"
                         },
                         new
                         {
@@ -1601,9 +1989,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Tên Tiếng Việt",
+                            Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_ten_tieng_viet"
+                            SqlColumnName = "bnt5_cautruc_tentiengviet"
                         },
                         new
                         {
@@ -1615,26 +2003,26 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = false,
-                            Name = "Tên Tiếng Anh",
+                            IsRequired = true,
+                            Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_ten_tieng_anh"
+                            SqlColumnName = "bnt5_cautruc_tentienganh"
                         },
                         new
                         {
                             Id = 50205,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_cau_truc_sinh_hoc(Id)",
+                            FkTarget = "bnt5_cautruc(Id)",
                             GroupId = 102,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Cấu trúc cha ID",
+                            Name = "Cấu trúc cha",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_cau_truc_cha_id"
+                            SqlColumnName = "bnt5_cautruc_cautruccha"
                         },
                         new
                         {
@@ -1649,7 +2037,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_mo_ta"
+                            SqlColumnName = "bnt5_cautruc_mota"
                         },
                         new
                         {
@@ -1662,25 +2050,57 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Cấp độ phân cấp",
+                            Name = "Cấp độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cau_truc_sinh_hoc_cap_do_phan_cap"
+                            SqlColumnName = "bnt5_cautruc_capdo"
+                        },
+                        new
+                        {
+                            Id = 50208,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 102,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_cautruc_phienban"
+                        },
+                        new
+                        {
+                            Id = 50209,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
+                            Description = "",
+                            GroupId = 102,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_cautruc_trangthai"
                         },
                         new
                         {
                             Id = 50301,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_cau_truc_sinh_hoc(Id)",
+                            FkTarget = "bnt5_cautruc(Id)",
                             GroupId = 103,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Cấu trúc ID",
+                            Name = "Cấu trúc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chat_tin_hieu_cau_truc_id"
+                            SqlColumnName = "bnt5_chatinhieu_cautruc"
                         },
                         new
                         {
@@ -1693,9 +2113,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Mã Chất/Tín Hiệu",
+                            Name = "Mã chất",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chat_tin_hieu_ma_chattin_hieu"
+                            SqlColumnName = "bnt5_chatinhieu_machat"
                         },
                         new
                         {
@@ -1708,13 +2128,28 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Tên TV",
+                            Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chat_tin_hieu_ten_tv"
+                            SqlColumnName = "bnt5_chatinhieu_tentiengviet"
                         },
                         new
                         {
                             Id = 50304,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(200)",
+                            Description = "",
+                            GroupId = 103,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = true,
+                            Name = "Tên tiếng Anh",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chatinhieu_tentienganh"
+                        },
+                        new
+                        {
+                            Id = 50305,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(50)",
                             Description = "",
@@ -1725,11 +2160,11 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Đơn vị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chat_tin_hieu_don_vi"
+                            SqlColumnName = "bnt5_chatinhieu_donvi"
                         },
                         new
                         {
-                            Id = 50305,
+                            Id = 50306,
                             Cardinality = "1:1",
                             DataType = "NVARCHAR(100)",
                             Description = "",
@@ -1738,13 +2173,28 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Giới hạn bt",
+                            Name = "Khoảng bình thường",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chat_tin_hieu_gioi_han_bt"
+                            SqlColumnName = "bnt5_chatinhieu_khoangbinhthuong"
                         },
                         new
                         {
-                            Id = 50306,
+                            Id = 50307,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 103,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Mô tả",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chatinhieu_mota"
+                        },
+                        new
+                        {
+                            Id = 50308,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(50)",
                             Description = "",
@@ -1752,10 +2202,42 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Loại Tín Hiệu",
+                            IsRequired = false,
+                            Name = "Loại",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chat_tin_hieu_loai_tin_hieu"
+                            SqlColumnName = "bnt5_chatinhieu_loai"
+                        },
+                        new
+                        {
+                            Id = 50309,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 103,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chatinhieu_phienban"
+                        },
+                        new
+                        {
+                            Id = 50310,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
+                            Description = "",
+                            GroupId = 103,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chatinhieu_trangthai"
                         },
                         new
                         {
@@ -1768,9 +2250,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Mã Xét Nghiệm",
+                            Name = "Mã xét nghiệm",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dm_xet_nghiem_ma_xet_nghiem"
+                            SqlColumnName = "bnt5_dmxnghiem_maxetnghiem"
                         },
                         new
                         {
@@ -1783,9 +2265,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Tên Xét Nghiệm",
+                            Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dm_xet_nghiem_ten_xet_nghiem"
+                            SqlColumnName = "bnt5_dmxnghiem_tentiengviet"
                         },
                         new
                         {
@@ -1797,10 +2279,10 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = false,
-                            Name = "Tên Tiếng Anh",
+                            IsRequired = true,
+                            Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dm_xet_nghiem_ten_tieng_anh"
+                            SqlColumnName = "bnt5_dmxnghiem_tentienganh"
                         },
                         new
                         {
@@ -1812,10 +2294,10 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Phương pháp đo",
+                            IsRequired = false,
+                            Name = "Phương pháp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dm_xet_nghiem_phuong_phap_do"
+                            SqlColumnName = "bnt5_dmxnghiem_phuongphap"
                         },
                         new
                         {
@@ -1827,14 +2309,29 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Loại mẫu",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dm_xet_nghiem_loai_mau"
+                            SqlColumnName = "bnt5_dmxnghiem_loaimau"
                         },
                         new
                         {
                             Id = 50406,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(50)",
+                            Description = "",
+                            GroupId = 104,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Thời gian trả KQ",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_dmxnghiem_thoigiantrakq"
+                        },
+                        new
+                        {
+                            Id = 50407,
                             Cardinality = "1:1",
                             DataType = "DECIMAL(18,2)",
                             Description = "",
@@ -1843,25 +2340,72 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Giá thành (Cost)",
+                            Name = "Giá thành",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dm_xet_nghiem_gia_thanh_cost"
+                            SqlColumnName = "bnt5_dmxnghiem_giathanh"
+                        },
+                        new
+                        {
+                            Id = 50408,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 104,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Mô tả",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_dmxnghiem_mota"
+                        },
+                        new
+                        {
+                            Id = 50409,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 104,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_dmxnghiem_phienban"
+                        },
+                        new
+                        {
+                            Id = 50410,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
+                            Description = "",
+                            GroupId = 104,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_dmxnghiem_trangthai"
                         },
                         new
                         {
                             Id = 50501,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dm_xet_nghiem(Id)",
+                            FkTarget = "bnt5_dmxnghiem(Id)",
                             GroupId = 105,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Xét nghiệm ID",
+                            Name = "Xét nghiệm",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_xet_nghiem_id"
+                            SqlColumnName = "bnt5_ktchieucu_xetnghiem"
                         },
                         new
                         {
@@ -1874,9 +2418,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Độ tuổi Min",
+                            Name = "Tuổi tối thiểu",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_do_tuoi_min"
+                            SqlColumnName = "bnt5_ktchieucu_tuoitoithieu"
                         },
                         new
                         {
@@ -1889,24 +2433,24 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Độ tuổi Max",
+                            Name = "Tuổi tối đa",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_do_tuoi_max"
+                            SqlColumnName = "bnt5_ktchieucu_tuoitoida"
                         },
                         new
                         {
                             Id = 50504,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(20)",
+                            DataType = "VARCHAR(10)",
                             Description = "",
                             GroupId = 105,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
                             Name = "Giới tính",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_gioi_tinh"
+                            SqlColumnName = "bnt5_ktchieucu_gioitinh"
                         },
                         new
                         {
@@ -1919,9 +2463,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Cận dưới",
+                            Name = "Giá trị thấp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_can_duoi"
+                            SqlColumnName = "bnt5_ktchieucu_giatrithap"
                         },
                         new
                         {
@@ -1934,24 +2478,24 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Cận trên",
+                            Name = "Giá trị cao",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_can_tren"
+                            SqlColumnName = "bnt5_ktchieucu_giatricao"
                         },
                         new
                         {
                             Id = 50507,
                             Cardinality = "1:1",
-                            DataType = "DECIMAL(18,4)",
+                            DataType = "VARCHAR(50)",
                             Description = "",
                             GroupId = 105,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Nguy hiểm (Low)",
+                            Name = "Đơn vị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_nguy_hiem_low"
+                            SqlColumnName = "bnt5_ktchieucu_donvi"
                         },
                         new
                         {
@@ -1964,15 +2508,77 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Nguy hiểm (High)",
+                            Name = "Nguy kịch thấp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_khoang_tham_chieu_nguy_hiem_high"
+                            SqlColumnName = "bnt5_ktchieucu_nguykichthap"
+                        },
+                        new
+                        {
+                            Id = 50509,
+                            Cardinality = "1:1",
+                            DataType = "DECIMAL(18,4)",
+                            Description = "",
+                            GroupId = 105,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Nguy kịch cao",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ktchieucu_nguykichcao"
+                        },
+                        new
+                        {
+                            Id = 50510,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 105,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ktchieucu_ghichu"
+                        },
+                        new
+                        {
+                            Id = 50511,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 105,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ktchieucu_phienban"
+                        },
+                        new
+                        {
+                            Id = 50512,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
+                            Description = "",
+                            GroupId = 105,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ktchieucu_trangthai"
                         },
                         new
                         {
                             Id = 50601,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
                             FkTarget = "Patient(Id)",
                             GroupId = 106,
@@ -1980,87 +2586,135 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Bệnh nhân ID",
+                            Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chi_dinh_do_luong_benh_nhan_id"
+                            SqlColumnName = "bnt5_ychidinh_mabenhnhan"
                         },
                         new
                         {
                             Id = 50602,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dm_xet_nghiem(Id)",
+                            FkTarget = "bnt5_dmxnghiem(Id)",
                             GroupId = 106,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Xét nghiệm ID",
+                            Name = "Xét nghiệm",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chi_dinh_do_luong_xet_nghiem_id"
+                            SqlColumnName = "bnt5_ychidinh_xetnghiem"
                         },
                         new
                         {
                             Id = 50603,
                             Cardinality = "1:1",
                             DataType = "DATETIME",
+                            DefaultValue = "GETDATE()",
                             Description = "",
                             GroupId = 106,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Ngày yêu cầu",
+                            Name = "Ngày chỉ định",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chi_dinh_do_luong_ngay_yeu_cau"
+                            SqlColumnName = "bnt5_ychidinh_ngaychidinh"
                         },
                         new
                         {
                             Id = 50604,
                             Cardinality = "1:1",
-                            DataType = "VARCHAR(20)",
+                            DataType = "REF",
                             Description = "",
+                            FkTarget = "AspNetUsers(Id)",
                             GroupId = 106,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Độ ưu tiên",
+                            IsRequired = false,
+                            Name = "Chỉ định bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chi_dinh_do_luong_do_uu_tien"
+                            SqlColumnName = "bnt5_ychidinh_chidinhboi"
                         },
                         new
                         {
                             Id = 50605,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(20)",
-                            DefaultValue = "PENDING",
                             Description = "",
                             GroupId = 106,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
+                            IsRequired = false,
+                            Name = "Độ ưu tiên",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ychidinh_douutien"
+                        },
+                        new
+                        {
+                            Id = 50606,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'PENDING'",
+                            Description = "",
+                            GroupId = 106,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chi_dinh_do_luong_trang_thai"
+                            SqlColumnName = "bnt5_ychidinh_trangthai"
+                        },
+                        new
+                        {
+                            Id = 50607,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 106,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ychidinh_ghichu"
+                        },
+                        new
+                        {
+                            Id = 50608,
+                            Cardinality = "1:1",
+                            DataType = "DATETIME",
+                            DefaultValue = "GETDATE()",
+                            Description = "",
+                            GroupId = 106,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ngày tạo",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ychidinh_ngaytao"
                         },
                         new
                         {
                             Id = 50701,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_chi_dinh_do_luong(Id)",
+                            FkTarget = "bnt5_ychidinh(Id)",
                             GroupId = 107,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Phiếu Chỉ Định ID",
+                            Name = "Mã chỉ định",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ket_qua_do_luong_phieu_chi_dinh_id"
+                            SqlColumnName = "bnt5_ketqua_machidinh"
                         },
                         new
                         {
@@ -2073,9 +2727,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Giá trị đo được",
+                            Name = "Giá trị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ket_qua_do_luong_gia_tri_do_duoc"
+                            SqlColumnName = "bnt5_ketqua_giatri"
                         },
                         new
                         {
@@ -2088,9 +2742,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Đơn vị thực tế",
+                            Name = "Đơn vị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ket_qua_do_luong_don_vi_thuc_te"
+                            SqlColumnName = "bnt5_ketqua_donvi"
                         },
                         new
                         {
@@ -2103,13 +2757,29 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Ngày có kết quả",
+                            Name = "Ngày kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ket_qua_do_luong_ngay_co_ket_qua"
+                            SqlColumnName = "bnt5_ketqua_ngayketqua"
                         },
                         new
                         {
                             Id = 50705,
+                            Cardinality = "1:1",
+                            DataType = "REF",
+                            Description = "",
+                            FkTarget = "AspNetUsers(Id)",
+                            GroupId = 107,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Nhận định bởi",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ketqua_nhandinhboi"
+                        },
+                        new
+                        {
+                            Id = 50706,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(20)",
                             Description = "",
@@ -2118,25 +2788,72 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Đánh giá flag",
+                            Name = "Cờ báo động",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ket_qua_do_luong_danh_gia_flag"
+                            SqlColumnName = "bnt5_ketqua_cobaodong"
+                        },
+                        new
+                        {
+                            Id = 50707,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 107,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ketqua_ghichu"
+                        },
+                        new
+                        {
+                            Id = 50708,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 107,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ketqua_phienban"
+                        },
+                        new
+                        {
+                            Id = 50709,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'ACTIVE'",
+                            Description = "",
+                            GroupId = 107,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ketqua_trangthai"
                         },
                         new
                         {
                             Id = 50801,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ket_qua_do_luong(Id)",
+                            FkTarget = "bnt5_ketqua(Id)",
                             GroupId = 108,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Kết quả ID",
+                            Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hoa_ket_qua_id"
+                            SqlColumnName = "bnt5_csinhhoa_maketqua"
                         },
                         new
                         {
@@ -2151,7 +2868,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Độ pH",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hoa_do_ph"
+                            SqlColumnName = "bnt5_csinhhoa_doph"
                         },
                         new
                         {
@@ -2164,25 +2881,55 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Ion Balance",
+                            Name = "Cân bằng ion",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hoa_ion_balance"
+                            SqlColumnName = "bnt5_csinhhoa_canbangion"
+                        },
+                        new
+                        {
+                            Id = 50804,
+                            Cardinality = "1:1",
+                            DataType = "DECIMAL(18,4)",
+                            Description = "",
+                            GroupId = 108,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Nồng độ enzyme",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_csinhhoa_nongdoenzyme"
+                        },
+                        new
+                        {
+                            Id = 50805,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 108,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_csinhhoa_ghichu"
                         },
                         new
                         {
                             Id = 50901,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ket_qua_do_luong(Id)",
+                            FkTarget = "bnt5_ketqua(Id)",
                             GroupId = 109,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Kết quả ID",
+                            Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hieu_ket_qua_id"
+                            SqlColumnName = "bnt5_cshieusinh_maketqua"
                         },
                         new
                         {
@@ -2197,7 +2944,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Huyết áp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hieu_huyet_ap"
+                            SqlColumnName = "bnt5_cshieusinh_huyetap"
                         },
                         new
                         {
@@ -2212,7 +2959,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nhịp tim",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hieu_nhip_tim"
+                            SqlColumnName = "bnt5_cshieusinh_nhiptim"
                         },
                         new
                         {
@@ -2225,25 +2972,70 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "SpO2",
+                            Name = "Nhiệt độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_sinh_hieu_spo2"
+                            SqlColumnName = "bnt5_cshieusinh_nhietdo"
+                        },
+                        new
+                        {
+                            Id = 50905,
+                            Cardinality = "1:1",
+                            DataType = "INT",
+                            Description = "",
+                            GroupId = 109,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Nhịp thở",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_cshieusinh_nhiptho"
+                        },
+                        new
+                        {
+                            Id = 50906,
+                            Cardinality = "1:1",
+                            DataType = "DECIMAL(5,2)",
+                            Description = "",
+                            GroupId = 109,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "SPO2",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_cshieusinh_spo2"
+                        },
+                        new
+                        {
+                            Id = 50907,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 109,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_cshieusinh_ghichu"
                         },
                         new
                         {
                             Id = 51001,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ket_qua_do_luong(Id)",
+                            FkTarget = "bnt5_ketqua(Id)",
                             GroupId = 110,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Kết quả ID",
+                            Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_te_bao_ket_qua_id"
+                            SqlColumnName = "bnt5_ctebao_maketqua"
                         },
                         new
                         {
@@ -2256,44 +3048,74 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Số lượng TB",
+                            Name = "Số lượng tế bào",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_te_bao_so_luong_tb"
+                            SqlColumnName = "bnt5_ctebao_soluongtebao"
+                        },
+                        new
+                        {
+                            Id = 51003,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(50)",
+                            Description = "",
+                            GroupId = 110,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Hình thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ctebao_hinhthai"
+                        },
+                        new
+                        {
+                            Id = 51004,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 110,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Markers",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ctebao_markers"
+                        },
+                        new
+                        {
+                            Id = 51005,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 110,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_ctebao_ghichu"
                         },
                         new
                         {
                             Id = 51101,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ket_qua_do_luong(Id)",
+                            FkTarget = "bnt5_ketqua(Id)",
                             GroupId = 111,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Kết quả ID",
+                            Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_hinh_anh_ket_qua_id"
+                            SqlColumnName = "bnt5_chinhanh_maketqua"
                         },
                         new
                         {
                             Id = 51102,
-                            Cardinality = "1:1",
-                            DataType = "VARCHAR(200)",
-                            Description = "",
-                            GroupId = 111,
-                            HasPermission = false,
-                            IsCore = true,
-                            IsHidden = false,
-                            IsRequired = false,
-                            Name = "Đường dẫn File",
-                            Scope = "System",
-                            SqlColumnName = "bnt5_context_hinh_anh_duong_dan_file"
-                        },
-                        new
-                        {
-                            Id = 51103,
                             Cardinality = "1:1",
                             DataType = "VARCHAR(50)",
                             Description = "",
@@ -2302,29 +3124,104 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Vị trí",
+                            Name = "Loại hình",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_hinh_anh_vi_tri"
+                            SqlColumnName = "bnt5_chinhanh_loaihinh"
+                        },
+                        new
+                        {
+                            Id = 51103,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 111,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phát hiện",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chinhanh_phathien"
+                        },
+                        new
+                        {
+                            Id = 51104,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(200)",
+                            Description = "",
+                            GroupId = 111,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Đường dẫn file",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chinhanh_duongdanfile"
+                        },
+                        new
+                        {
+                            Id = 51105,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(50)",
+                            Description = "",
+                            GroupId = 111,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Kích thước",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chinhanh_kichthuoc"
+                        },
+                        new
+                        {
+                            Id = 51106,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 111,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_chinhanh_ghichu"
                         },
                         new
                         {
                             Id = 51201,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ket_qua_do_luong(Id)",
+                            FkTarget = "bnt5_ketqua(Id)",
                             GroupId = 112,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Kết quả ID",
+                            Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_dien_sinh_ly_ket_qua_id"
+                            SqlColumnName = "bnt5_diensinhly_maketqua"
                         },
                         new
                         {
                             Id = 51202,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 112,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Dạng sóng",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_diensinhly_dangsong"
+                        },
+                        new
+                        {
+                            Id = 51203,
                             Cardinality = "1:1",
                             DataType = "DECIMAL(18,4)",
                             Description = "",
@@ -2333,56 +3230,86 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Tần số điện",
+                            Name = "Biên độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_dien_sinh_ly_tan_so_dien"
+                            SqlColumnName = "bnt5_diensinhly_biendo"
                         },
                         new
                         {
-                            Id = 51203,
+                            Id = 51204,
                             Cardinality = "1:1",
-                            DataType = "JSON",
+                            DataType = "DECIMAL(18,4)",
                             Description = "",
                             GroupId = 112,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Waveform File",
+                            Name = "Tần số",
                             Scope = "System",
-                            SqlColumnName = "bnt5_context_dien_sinh_ly_waveform_file"
+                            SqlColumnName = "bnt5_diensinhly_tanso"
+                        },
+                        new
+                        {
+                            Id = 51205,
+                            Cardinality = "1:1",
+                            DataType = "INT",
+                            Description = "",
+                            GroupId = 112,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Thời lượng",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_diensinhly_thoiluong"
+                        },
+                        new
+                        {
+                            Id = 51206,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 112,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Ghi chú",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_diensinhly_ghichu"
                         },
                         new
                         {
                             Id = 51301,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dm_xet_nghiem(Id)",
+                            FkTarget = "bnt5_dmxnghiem(Id)",
                             GroupId = 113,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Xét nghiệm Gốc (From)",
+                            Name = "XN gốc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_lien_ket_xet_nghiem_xet_nghiem_goc_from"
+                            SqlColumnName = "bnt5_xnlienquan_xngoc"
                         },
                         new
                         {
                             Id = 51302,
                             Cardinality = "1:1",
-                            DataType = "INT",
+                            DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dm_xet_nghiem(Id)",
+                            FkTarget = "bnt5_dmxnghiem(Id)",
                             GroupId = 113,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Xét nghiệm Đích (To)",
+                            Name = "XN đích",
                             Scope = "System",
-                            SqlColumnName = "bnt5_lien_ket_xet_nghiem_xet_nghiem_dich_to"
+                            SqlColumnName = "bnt5_xnlienquan_xndich"
                         },
                         new
                         {
@@ -2394,14 +3321,29 @@ namespace Server.Migrations
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
-                            IsRequired = true,
-                            Name = "Loại Liên Kết",
+                            IsRequired = false,
+                            Name = "Loại liên hệ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_lien_ket_xet_nghiem_loai_lien_ket"
+                            SqlColumnName = "bnt5_xnlienquan_loailienhe"
                         },
                         new
                         {
                             Id = 51304,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 113,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Mô tả",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_xnlienquan_mota"
+                        },
+                        new
+                        {
+                            Id = 51305,
                             Cardinality = "1:1",
                             DataType = "DECIMAL(5,2)",
                             Description = "",
@@ -2410,9 +3352,9 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Độ tin cậy",
+                            Name = "Độ mạnh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_lien_ket_xet_nghiem_do_tin_cay"
+                            SqlColumnName = "bnt5_xnlienquan_domanh"
                         },
                         new
                         {
@@ -2427,7 +3369,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã quy tắc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_quy_tac_canh_bao_xn_ma_quy_tac"
+                            SqlColumnName = "bnt5_qtcbxn_maquytac"
                         },
                         new
                         {
@@ -2440,24 +3382,24 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Biểu thức điều kiện",
+                            Name = "Điều kiện",
                             Scope = "System",
-                            SqlColumnName = "bnt5_quy_tac_canh_bao_xn_bieu_thuc_dieu_kien"
+                            SqlColumnName = "bnt5_qtcbxn_dieukien"
                         },
                         new
                         {
                             Id = 51403,
                             Cardinality = "1:1",
-                            DataType = "NVARCHAR(MAX)",
+                            DataType = "VARCHAR(20)",
                             Description = "",
                             GroupId = 114,
                             HasPermission = false,
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = true,
-                            Name = "Cảnh báo Message",
+                            Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_quy_tac_canh_bao_xn_canh_bao_message"
+                            SqlColumnName = "bnt5_qtcbxn_mucdo"
                         },
                         new
                         {
@@ -2470,9 +3412,71 @@ namespace Server.Migrations
                             IsCore = true,
                             IsHidden = false,
                             IsRequired = false,
-                            Name = "Nhóm XN khuyên giải (JSON)",
+                            Name = "Thông điệp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_quy_tac_canh_bao_xn_nhom_xn_khuyen_giai_json"
+                            SqlColumnName = "bnt5_qtcbxn_thongdiep"
+                        },
+                        new
+                        {
+                            Id = 51405,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 114,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "XN gợi ý",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_qtcbxn_xngoiy"
+                        },
+                        new
+                        {
+                            Id = 51406,
+                            Cardinality = "1:1",
+                            DataType = "NVARCHAR(MAX)",
+                            Description = "",
+                            GroupId = 114,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "XN áp dụng",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_qtcbxn_xnapdung"
+                        },
+                        new
+                        {
+                            Id = 51407,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(10)",
+                            DefaultValue = "'1.0'",
+                            Description = "",
+                            GroupId = 114,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Phiên bản",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_qtcbxn_phienban"
+                        },
+                        new
+                        {
+                            Id = 51408,
+                            Cardinality = "1:1",
+                            DataType = "VARCHAR(20)",
+                            DefaultValue = "'DRAFT'",
+                            Description = "",
+                            GroupId = 114,
+                            HasPermission = false,
+                            IsCore = true,
+                            IsHidden = false,
+                            IsRequired = false,
+                            Name = "Trạng thái",
+                            Scope = "System",
+                            SqlColumnName = "bnt5_qtcbxn_trangthai"
                         });
                 });
 
@@ -2483,6 +3487,10 @@ namespace Server.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -2504,6 +3512,7 @@ namespace Server.Migrations
                         new
                         {
                             Id = 1,
+                            Color = "#2196F3",
                             Description = "Thông tin không thay đổi (Họ tên, ngày sinh, giới tính...)",
                             Name = "Định danh cá nhân",
                             Nature = "Cố định"
@@ -2511,6 +3520,7 @@ namespace Server.Migrations
                         new
                         {
                             Id = 2,
+                            Color = "#4CAF50",
                             Description = "Thông tin pháp lý (CMND/CCCD, hộ chiếu...)",
                             Name = "Pháp lý",
                             Nature = "Ít thay đổi"
@@ -2518,6 +3528,7 @@ namespace Server.Migrations
                         new
                         {
                             Id = 3,
+                            Color = "#9C27B0",
                             Description = "Thông tin bảo hiểm, thẻ ưu đãi...",
                             Name = "BHYT & Quyền lợi",
                             Nature = "Thay đổi định kỳ"
@@ -2525,14 +3536,16 @@ namespace Server.Migrations
                         new
                         {
                             Id = 4,
-                            Description = "Gen, nhóm máu, dị ứng bẩm sinh, bệnh nền...",
-                            Name = "Di truyền bất biến",
+                            Color = "#FF9800",
+                            Description = "\"Đặc điểm gốc?\" — Bất biến",
+                            Name = "Di truyền",
                             Nature = "Bất biến"
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Chỉ số sinh tồn, xét nghiệm, kết quả khám...",
+                            Color = "#F44336",
+                            Description = "\"Hiện trạng?\" — Biến động liên tục",
                             Name = "Sinh học biến động",
                             Nature = "Biến động liên tục"
                         });

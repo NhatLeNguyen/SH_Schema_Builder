@@ -35,6 +35,7 @@ export interface Tier {
   id: number;
   name: string;
   nature: string;
+  color: string;
   description: string;
   groups: Group[];
 }

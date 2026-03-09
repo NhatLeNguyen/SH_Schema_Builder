@@ -58,3 +58,24 @@ body {
 .ant-modal .ant-modal-content {
   border-radius: 16px !important;
 }
+
+/* Schema Tree V2 styles */
+.schema-category-header:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.schema-group-row:hover {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.schema-group-row:hover .schema-group-actions {
+  opacity: 1 !important;
+}
+
+.schema-attr-row:hover {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.schema-attr-row:hover .schema-attr-actions {
+  opacity: 1 !important;
+}

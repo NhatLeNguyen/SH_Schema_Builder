@@ -30,16 +30,22 @@ export function SqlPreviewModal({ isOpen, onClose, tier, allTiers }: SqlPreviewM
     sql += `-- Nature: ${t.nature}\n`;
     sql += `-- =============================================\n\n`;
 
-    const recursivelyGenerateTables = (groups: Group[], parentGroup?: Group) => {
+    const recursivelyGenerateTables = (groups: Group[]) => {
       let tierSql = '';
       groups.forEach(group => {
         const tableName = group.sqlTableName;
+
+        // Skip category groups (no table name) — only recurse into children
+        if (!tableName) {
+          if (group.subGroups && group.subGroups.length > 0) {
+            tierSql += `-- === ${group.name} ===\n`;
+            tierSql += recursivelyGenerateTables(group.subGroups);
+          }
+          return;
+        }
+
         tierSql += `CREATE TABLE [dbo].[${tableName}] (\n`;
         tierSql += `    [Id] INT IDENTITY(1,1) PRIMARY KEY,\n`;
-
-        if (parentGroup) {
-          tierSql += `    [${parentGroup.sqlTableName}_id] INT NOT NULL FOREIGN KEY REFERENCES [dbo].[${parentGroup.sqlTableName}](Id),\n`;
-        }
 
         const columnDefinitions = group.attributes.map(attr => {
           let line = `    [${attr.sqlColumnName}] `;
@@ -74,7 +80,7 @@ export function SqlPreviewModal({ isOpen, onClose, tier, allTiers }: SqlPreviewM
         tierSql += `);\nGO\n\n`;
 
         if (group.subGroups && group.subGroups.length > 0) {
-          tierSql += recursivelyGenerateTables(group.subGroups, group);
+          tierSql += recursivelyGenerateTables(group.subGroups);
         }
       });
       return tierSql;

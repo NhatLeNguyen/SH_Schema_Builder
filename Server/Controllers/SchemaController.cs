@@ -23,8 +23,18 @@ public class SchemaController : ControllerBase
     {
         var tiers = await _context.Tiers
             .Include(t => t.Groups)
-            .ThenInclude(g => g.Attributes)
+                .ThenInclude(g => g.Attributes)
+            .Include(t => t.Groups)
+                .ThenInclude(g => g.SubGroups)
+                    .ThenInclude(sg => sg.Attributes)
             .ToListAsync();
+
+        // Only return root-level groups at tier level; children are in SubGroups
+        foreach (var tier in tiers)
+        {
+            tier.Groups = tier.Groups.Where(g => g.ParentGroupId == null).ToList();
+        }
+
         return Ok(tiers);
     }
 

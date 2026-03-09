@@ -35,11 +35,11 @@ public partial class AppDbContext : IdentityDbContext<AppUser>
             
         // Seed 5 tầng
         builder.Entity<Tier>().HasData(
-            new Tier { Id = 1, Name = "Định danh cá nhân", Nature = "Cố định", Description = "Thông tin không thay đổi (Họ tên, ngày sinh, giới tính...)" },
-            new Tier { Id = 2, Name = "Pháp lý", Nature = "Ít thay đổi", Description = "Thông tin pháp lý (CMND/CCCD, hộ chiếu...)" },
-            new Tier { Id = 3, Name = "BHYT & Quyền lợi", Nature = "Thay đổi định kỳ", Description = "Thông tin bảo hiểm, thẻ ưu đãi..." },
-            new Tier { Id = 4, Name = "Di truyền bất biến", Nature = "Bất biến", Description = "Gen, nhóm máu, dị ứng bẩm sinh, bệnh nền..." },
-            new Tier { Id = 5, Name = "Sinh học biến động", Nature = "Biến động liên tục", Description = "Chỉ số sinh tồn, xét nghiệm, kết quả khám..." }
+            new Tier { Id = 1, Name = "Định danh cá nhân", Nature = "Cố định", Color = "#2196F3", Description = "Thông tin không thay đổi (Họ tên, ngày sinh, giới tính...)" },
+            new Tier { Id = 2, Name = "Pháp lý", Nature = "Ít thay đổi", Color = "#4CAF50", Description = "Thông tin pháp lý (CMND/CCCD, hộ chiếu...)" },
+            new Tier { Id = 3, Name = "BHYT & Quyền lợi", Nature = "Thay đổi định kỳ", Color = "#9C27B0", Description = "Thông tin bảo hiểm, thẻ ưu đãi..." },
+            new Tier { Id = 4, Name = "Di truyền", Nature = "Bất biến", Color = "#FF9800", Description = "\"Đặc điểm gốc?\" — Bất biến" },
+            new Tier { Id = 5, Name = "Sinh học biến động", Nature = "Biến động liên tục", Color = "#F44336", Description = "\"Hiện trạng?\" — Biến động liên tục" }
         );
 
         // Gọi các file seed part partial class
