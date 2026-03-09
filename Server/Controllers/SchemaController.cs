@@ -61,7 +61,10 @@ public class SchemaController : ControllerBase
         
         if (group.IsCore) return BadRequest(new { message = "Không thể xóa nhóm dữ liệu cốt lõi (Core)." });
 
-        _context.Attributes.RemoveRange(group.Attributes);
+        if (group.Attributes != null && group.Attributes.Any())
+        {
+            _context.Attributes.RemoveRange(group.Attributes);
+        }
         _context.Groups.Remove(group);
         await _context.SaveChangesAsync();
         return NoContent();
