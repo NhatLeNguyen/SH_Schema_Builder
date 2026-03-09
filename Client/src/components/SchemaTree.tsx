@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { useEditorStore } from '../store/editorStore';
 import type { Group } from '../hooks/useSchema';
 import { FolderOutlined, FileTextOutlined, EllipsisOutlined, PlusOutlined, DeleteOutlined, LockOutlined } from '@ant-design/icons';
-import { Tree, Dropdown, MenuProps, Tooltip, Empty, Modal } from 'antd';
+import { Tree, Dropdown, Tooltip, Empty, Modal } from 'antd';
+import type { MenuProps } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 
 interface SchemaTreeProps {
