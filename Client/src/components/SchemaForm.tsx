@@ -18,9 +18,7 @@ export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any; o
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '_');
+        .replace(/[^a-z0-9]/g, '');
       const tierId = initialData.tierId || 1;
       form.setFieldsValue({
         sqlTableName: `bnt${tierId}_${slug}`.substring(0, 50),
@@ -86,17 +84,13 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '_');
+        .replace(/[^a-z0-9]/g, '');
       const groupSlug = parentGroupName
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '_');
+        .replace(/[^a-z0-9]/g, '');
       form.setFieldsValue({
         sqlColumnName: `bnt${tierId}_${groupSlug}_${slug}`.substring(0, 100),
       });

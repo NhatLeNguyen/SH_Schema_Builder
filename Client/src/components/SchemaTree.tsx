@@ -182,20 +182,90 @@ export function SchemaTree({
                 <Text strong style={{ fontSize: 13, color: '#333' }}>{category.name}</Text>
                 <Text type="secondary" style={{ fontSize: 11 }}>{childCount}</Text>
               </div>
-              <Tooltip title="Thêm nhóm con">
-                <Button
-                  type="text"
-                  size="small"
-                  icon={<PlusOutlined style={{ fontSize: 11 }} />}
-                  onClick={(e) => { e.stopPropagation(); onAddSubGroup(category.id); }}
-                  style={{ padding: '0 4px', height: 22, color: tierColor, opacity: 0.7 }}
-                />
-              </Tooltip>
+              <div style={{ display: 'flex', gap: 2 }}>
+                <Tooltip title="Thêm thuộc tính">
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<FormOutlined style={{ fontSize: 11 }} />}
+                    onClick={(e) => { e.stopPropagation(); onAddAttribute(category.id); }}
+                    style={{ padding: '0 4px', height: 22, color: tierColor, opacity: 0.7 }}
+                  />
+                </Tooltip>
+                <Tooltip title="Thêm nhóm con">
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<PlusOutlined style={{ fontSize: 11 }} />}
+                    onClick={(e) => { e.stopPropagation(); onAddSubGroup(category.id); }}
+                    style={{ padding: '0 4px', height: 22, color: tierColor, opacity: 0.7 }}
+                  />
+                </Tooltip>
+              </div>
             </div>
 
             {/* Category Children */}
             {isCatExpanded && (
               <div style={{ paddingLeft: 12 }}>
+                {/* Direct attributes on category */}
+                {category.attributes && category.attributes.length > 0 && (
+                  <div style={{ paddingLeft: 24, marginBottom: 4 }}>
+                    {category.attributes.map(attr => {
+                      const attrKey = `a_${category.id}_${attr.id}`;
+                      const isAttrSelected = selectedNodeId === attrKey;
+                      return (
+                        <div
+                          key={attr.id}
+                          className="schema-attr-row"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '4px 10px',
+                            borderRadius: 6,
+                            cursor: 'pointer',
+                            transition: 'all 0.15s',
+                            background: isAttrSelected ? 'rgba(79,70,229,0.06)' : 'transparent',
+                          }}
+                          onClick={() => setSelectedNode(attrKey, 'attribute')}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 0 }}>
+                            <FileTextOutlined style={{ color: '#94a3b8', fontSize: 11 }} />
+                            <Text style={{ fontSize: 11.5 }}>{attr.name}</Text>
+                            {attr.isCore && <LockOutlined style={{ color: '#d97706', fontSize: 9 }} />}
+                            {attr.dataType && (
+                              <Tag
+                                color="default"
+                                style={{ fontSize: 9, lineHeight: '14px', padding: '0 4px', margin: 0, borderRadius: 3 }}
+                              >
+                                {attr.dataType}
+                              </Tag>
+                            )}
+                          </div>
+                          <span className="schema-attr-actions" style={{ opacity: 0, transition: 'opacity 0.15s' }}>
+                            <Popconfirm
+                              title="Xác nhận xóa?"
+                              onConfirm={(e) => { e?.stopPropagation(); onDeleteAttribute(attr.id); }}
+                              onCancel={(e) => e?.stopPropagation()}
+                              okText="Xóa"
+                              cancelText="Hủy"
+                              okButtonProps={{ danger: true }}
+                            >
+                              <Button
+                                type="text"
+                                size="small"
+                                icon={<DeleteOutlined style={{ fontSize: 11 }} />}
+                                danger
+                                onClick={(e) => e.stopPropagation()}
+                                style={{ padding: '0 4px', height: 18 }}
+                              />
+                            </Popconfirm>
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
                 {(category.subGroups ?? []).map(sg => (
                   <TableGroupNode
                     key={sg.id}

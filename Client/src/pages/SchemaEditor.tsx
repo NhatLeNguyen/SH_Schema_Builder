@@ -150,13 +150,12 @@ export default function SchemaEditor() {
             <DatabaseOutlined style={{ fontSize: 18, color: '#fff' }} />
           </div>
           <Title level={5} style={{ margin: 0, letterSpacing: -0.5 }}>S&H — Cấu trúc dữ liệu bệnh nhân</Title>
-          <Badge status="success" text={<Text type="secondary" style={{ fontSize: 10 }}>Connected</Text>} />
         </Space>
 
         <Space size={8}>
-          <Button icon={<SaveOutlined />} size="small">Lưu phiên bản</Button>
+          {/* <Button icon={<SaveOutlined />} size="small">Lưu phiên bản</Button> */}
           <Button icon={<CodeOutlined />} size="small" onClick={() => setIsSqlPreviewOpen(true)}>Xem SQL</Button>
-          <Button type="primary" icon={<SyncOutlined />} size="small">Cập nhật Cấu trúc</Button>
+          {/* <Button type="primary" icon={<SyncOutlined />} size="small">Cập nhật Cấu trúc</Button> */}
         </Space>
       </Header>
 

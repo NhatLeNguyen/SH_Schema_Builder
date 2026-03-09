@@ -12,7 +12,7 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260309074707_InitialCreate")]
+    [Migration("20260309090446_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -314,9 +314,9 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Danh mục nhóm dược lý",
                             IsCore = true,
-                            Name = "DRUG_GROUP (Nhóm dược lý)",
+                            Name = "Nhóm dược lý",
                             ParentGroupId = 401,
-                            SqlTableName = "bnt4_nhduly",
+                            SqlTableName = "bnt4_nhomduocly",
                             TableNameFull = "nhomduocly",
                             TierId = 4
                         },
@@ -326,9 +326,9 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Danh mục hoạt chất",
                             IsCore = true,
-                            Name = "DRUG_SUBSTANCE (Hoạt chất)",
+                            Name = "Hoạt chất",
                             ParentGroupId = 401,
-                            SqlTableName = "bnt4_hoatch",
+                            SqlTableName = "bnt4_hoatchat",
                             TableNameFull = "hoatchat",
                             TierId = 4
                         },
@@ -338,10 +338,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Quy tắc dị ứng chéo",
                             IsCore = true,
-                            Name = "CROSS_REACTIVITY (Dị ứng chéo)",
+                            Name = "Dị ứng chéo",
                             ParentGroupId = 401,
-                            SqlTableName = "bnt4_ducheo",
-                            TableNameFull = "duungcheo",
+                            SqlTableName = "bnt4_diungcheo",
+                            TableNameFull = "diungcheo",
                             TierId = 4
                         },
                         new
@@ -350,9 +350,9 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Tương tác giữa các hoạt chất",
                             IsCore = true,
-                            Name = "DRUG_INTERACTION (Tương tác thuốc)",
+                            Name = "Tương tác thuốc",
                             ParentGroupId = 401,
-                            SqlTableName = "bnt4_tuatac",
+                            SqlTableName = "bnt4_tuongtacthuoc",
                             TableNameFull = "tuongtacthuoc",
                             TierId = 4
                         },
@@ -362,10 +362,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Hồ sơ dị ứng của bệnh nhân",
                             IsCore = true,
-                            Name = "PATIENT_ALLERGY (Dị ứng ADR)",
+                            Name = "Dị ứng ADR",
                             ParentGroupId = 402,
-                            SqlTableName = "bnt4_diungb",
-                            TableNameFull = "diungb",
+                            SqlTableName = "bnt4_diungadr",
+                            TableNameFull = "diungadr",
                             TierId = 4
                         },
                         new
@@ -374,10 +374,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Bệnh lý nền bất biến",
                             IsCore = true,
-                            Name = "PATIENT_CONDITION (Bệnh nền)",
+                            Name = "Bệnh nền",
                             ParentGroupId = 402,
-                            SqlTableName = "bnt4_bnenan",
-                            TableNameFull = "bnenan",
+                            SqlTableName = "bnt4_benhnen",
+                            TableNameFull = "benhnen",
                             TierId = 4
                         },
                         new
@@ -386,10 +386,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Bộ quy tắc cảnh báo lâm sàng",
                             IsCore = true,
-                            Name = "DRUG_ALERT_RULE (Quy tắc cảnh báo)",
+                            Name = "Quy tắc cảnh báo",
                             ParentGroupId = 403,
-                            SqlTableName = "bnt4_qtcanh",
-                            TableNameFull = "qtcanh",
+                            SqlTableName = "bnt4_quytaccanhbao",
+                            TableNameFull = "quytaccanhbao",
                             TierId = 4
                         },
                         new
@@ -398,10 +398,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Lịch sử cảnh báo đã phát cho bệnh nhân",
                             IsCore = true,
-                            Name = "ALERT_LOG (Lịch sử cảnh báo)",
+                            Name = "Lịch sử cảnh báo",
                             ParentGroupId = 403,
-                            SqlTableName = "bnt4_nkcbao",
-                            TableNameFull = "nkcbao",
+                            SqlTableName = "bnt4_lichsucanhbao",
+                            TableNameFull = "lichsucanhbao",
                             TierId = 4
                         },
                         new
@@ -465,7 +465,7 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Hệ cơ quan sinh học",
                             IsCore = true,
-                            Name = "BIO_SYSTEM (Hệ cơ quan)",
+                            Name = "Hệ cơ quan",
                             ParentGroupId = 501,
                             SqlTableName = "bnt5_hecoquan",
                             TableNameFull = "hecoquan",
@@ -477,10 +477,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Cấu trúc chi tiết cơ quan",
                             IsCore = true,
-                            Name = "BIO_STRUCTURE (Cấu trúc sinh học)",
+                            Name = "Cấu trúc sinh học",
                             ParentGroupId = 501,
-                            SqlTableName = "bnt5_cautruc",
-                            TableNameFull = "cautruc",
+                            SqlTableName = "bnt5_cautrucsinhoc",
+                            TableNameFull = "cautrucsinhoc",
                             TierId = 5
                         },
                         new
@@ -489,10 +489,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Chất hóa học hoặc tín hiệu đo lường",
                             IsCore = true,
-                            Name = "BIO_SUBSTANCE (Chất / Tín hiệu)",
+                            Name = "Chất tín hiệu",
                             ParentGroupId = 501,
-                            SqlTableName = "bnt5_chatinhieu",
-                            TableNameFull = "chatinhieu",
+                            SqlTableName = "bnt5_chattinhieu",
+                            TableNameFull = "chattinhieu",
                             TierId = 5
                         },
                         new
@@ -501,10 +501,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Danh mục xét nghiệm đo lường",
                             IsCore = true,
-                            Name = "TEST_CATALOG (Danh mục XN)",
+                            Name = "Danh mục xét nghiệm",
                             ParentGroupId = 502,
-                            SqlTableName = "bnt5_dmxnghiem",
-                            TableNameFull = "dmxnghiem",
+                            SqlTableName = "bnt5_danhmucxetnghiem",
+                            TableNameFull = "danhmucxetnghiem",
                             TierId = 5
                         },
                         new
@@ -513,10 +513,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Reference ranges cho XN",
                             IsCore = true,
-                            Name = "REF_RANGE (Khoảng tham chiếu)",
+                            Name = "Khoảng tham chiếu",
                             ParentGroupId = 502,
-                            SqlTableName = "bnt5_ktchieucu",
-                            TableNameFull = "ktchieucu",
+                            SqlTableName = "bnt5_khoangthamchieu",
+                            TableNameFull = "khoangthamchieu",
                             TierId = 5
                         },
                         new
@@ -525,10 +525,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Y lệnh chỉ định XN",
                             IsCore = true,
-                            Name = "MEASUREMENT_ORDER (Lệnh chỉ định)",
+                            Name = "Lệnh chỉ định",
                             ParentGroupId = 503,
-                            SqlTableName = "bnt5_ychidinh",
-                            TableNameFull = "ychidinh",
+                            SqlTableName = "bnt5_lenhchidinh",
+                            TableNameFull = "lenhchidinh",
                             TierId = 5
                         },
                         new
@@ -537,10 +537,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Kết quả đo lường sinh học",
                             IsCore = true,
-                            Name = "MEASUREMENT_RESULT (Kết quả đo lường)",
+                            Name = "Kết quả đo lường",
                             ParentGroupId = 503,
-                            SqlTableName = "bnt5_ketqua",
-                            TableNameFull = "ketqua",
+                            SqlTableName = "bnt5_ketquadoluong",
+                            TableNameFull = "ketquadoluong",
                             TierId = 5
                         },
                         new
@@ -549,10 +549,10 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             Description = "Bối cảnh đo sinh hóa",
                             IsCore = true,
-                            Name = "CTX_CHEMICAL (Sinh hóa)",
+                            Name = "Sinh hóa",
                             ParentGroupId = 504,
-                            SqlTableName = "bnt5_csinhhoa",
-                            TableNameFull = "csinhhoa",
+                            SqlTableName = "bnt5_sinhhoa",
+                            TableNameFull = "sinhhoa",
                             TierId = 5
                         },
                         new
@@ -561,10 +561,10 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             Description = "Bối cảnh định kỳ của sinh hiệu",
                             IsCore = true,
-                            Name = "CTX_VITAL_SIGN (Sinh hiệu)",
+                            Name = "Sinh hiệu",
                             ParentGroupId = 504,
-                            SqlTableName = "bnt5_cshieusinh",
-                            TableNameFull = "cshieusinh",
+                            SqlTableName = "bnt5_sinhhieu",
+                            TableNameFull = "sinhhieu",
                             TierId = 5
                         },
                         new
@@ -573,10 +573,10 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             Description = "Bối cảnh tế bào",
                             IsCore = true,
-                            Name = "CTX_CELL (Tế bào)",
+                            Name = "Tế bào",
                             ParentGroupId = 504,
-                            SqlTableName = "bnt5_ctebao",
-                            TableNameFull = "ctebao",
+                            SqlTableName = "bnt5_tebao",
+                            TableNameFull = "tebao",
                             TierId = 5
                         },
                         new
@@ -585,10 +585,10 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             Description = "Bối cảnh hình ảnh",
                             IsCore = true,
-                            Name = "CTX_IMAGE (Hình ảnh)",
+                            Name = "Hình ảnh",
                             ParentGroupId = 504,
-                            SqlTableName = "bnt5_chinhanh",
-                            TableNameFull = "chinhanh",
+                            SqlTableName = "bnt5_hinhanh",
+                            TableNameFull = "hinhanh",
                             TierId = 5
                         },
                         new
@@ -597,7 +597,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             Description = "Bối cảnh điện sinh lý",
                             IsCore = true,
-                            Name = "CTX_ELECTRICAL (Điện sinh lý)",
+                            Name = "Điện sinh lý",
                             ParentGroupId = 504,
                             SqlTableName = "bnt5_diensinhly",
                             TableNameFull = "diensinhly",
@@ -609,10 +609,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Mối liên hệ tương quan giữa các xét nghiệm",
                             IsCore = true,
-                            Name = "TEST_RELATION (XN liên quan)",
+                            Name = "Xét nghiệm liên quan",
                             ParentGroupId = 505,
-                            SqlTableName = "bnt5_xnlienquan",
-                            TableNameFull = "xnlienquan",
+                            SqlTableName = "bnt5_xetnghiemlienquan",
+                            TableNameFull = "xetnghiemlienquan",
                             TierId = 5
                         },
                         new
@@ -621,10 +621,10 @@ namespace Server.Migrations
                             Cardinality = "1:N",
                             Description = "Quy tắc cảnh báo XN sinh học",
                             IsCore = true,
-                            Name = "ALERT_RULE (Cảnh báo XN)",
+                            Name = "Cảnh báo xét nghiệm",
                             ParentGroupId = 505,
-                            SqlTableName = "bnt5_qtcbxn",
-                            TableNameFull = "qtcbxn",
+                            SqlTableName = "bnt5_canhbaoxetnghiem",
+                            TableNameFull = "canhbaoxetnghiem",
                             TierId = 5
                         });
                 });
@@ -740,7 +740,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_nhduly(Id)",
+                            FkTarget = "bnt4_nhomduocly(Id)",
                             GroupId = 1,
                             HasPermission = false,
                             IsCore = true,
@@ -893,7 +893,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_nhduly(Id)",
+                            FkTarget = "bnt4_nhomduocly(Id)",
                             GroupId = 2,
                             HasPermission = false,
                             IsCore = true,
@@ -1016,7 +1016,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoatch(Id)",
+                            FkTarget = "bnt4_hoatchat(Id)",
                             GroupId = 3,
                             HasPermission = false,
                             IsCore = true,
@@ -1024,7 +1024,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Chất nguồn",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_chatnguon"
+                            SqlColumnName = "bnt4_diungcheo_chatnguon"
                         },
                         new
                         {
@@ -1032,7 +1032,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoatch(Id)",
+                            FkTarget = "bnt4_hoatchat(Id)",
                             GroupId = 3,
                             HasPermission = false,
                             IsCore = true,
@@ -1040,7 +1040,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Chất nhận",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_chatnhan"
+                            SqlColumnName = "bnt4_diungcheo_chatnhan"
                         },
                         new
                         {
@@ -1055,7 +1055,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_mucdo"
+                            SqlColumnName = "bnt4_diungcheo_mucdo"
                         },
                         new
                         {
@@ -1070,7 +1070,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_mota"
+                            SqlColumnName = "bnt4_diungcheo_mota"
                         },
                         new
                         {
@@ -1085,7 +1085,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mức bằng chứng",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_mucbangchung"
+                            SqlColumnName = "bnt4_diungcheo_mucbangchung"
                         },
                         new
                         {
@@ -1101,7 +1101,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày tạo",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_ngaytao"
+                            SqlColumnName = "bnt4_diungcheo_ngaytao"
                         },
                         new
                         {
@@ -1116,7 +1116,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày cập nhật",
                             Scope = "System",
-                            SqlColumnName = "bnt4_duungcheo_ngaycapnhat"
+                            SqlColumnName = "bnt4_diungcheo_ngaycapnhat"
                         },
                         new
                         {
@@ -1124,7 +1124,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoatch(Id)",
+                            FkTarget = "bnt4_hoatchat(Id)",
                             GroupId = 4,
                             HasPermission = false,
                             IsCore = true,
@@ -1140,7 +1140,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoatch(Id)",
+                            FkTarget = "bnt4_hoatchat(Id)",
                             GroupId = 4,
                             HasPermission = false,
                             IsCore = true,
@@ -1256,7 +1256,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_mabenhnhan"
+                            SqlColumnName = "bnt4_diungadr_mabenhnhan"
                         },
                         new
                         {
@@ -1264,7 +1264,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_hoatch(Id)",
+                            FkTarget = "bnt4_hoatchat(Id)",
                             GroupId = 5,
                             HasPermission = false,
                             IsCore = true,
@@ -1272,7 +1272,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Hoạt chất",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_hoatchat"
+                            SqlColumnName = "bnt4_diungadr_hoatchat"
                         },
                         new
                         {
@@ -1287,7 +1287,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_mucdo"
+                            SqlColumnName = "bnt4_diungadr_mucdo"
                         },
                         new
                         {
@@ -1302,7 +1302,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày khởi phát",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_ngaykhoiphat"
+                            SqlColumnName = "bnt4_diungadr_ngaykhoiphat"
                         },
                         new
                         {
@@ -1317,7 +1317,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Loại phản ứng",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_loaiphanung"
+                            SqlColumnName = "bnt4_diungadr_loaiphanung"
                         },
                         new
                         {
@@ -1333,7 +1333,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Đã khỏi",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_dakhoi"
+                            SqlColumnName = "bnt4_diungadr_dakhoi"
                         },
                         new
                         {
@@ -1348,7 +1348,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_ghichu"
+                            SqlColumnName = "bnt4_diungadr_ghichu"
                         },
                         new
                         {
@@ -1364,7 +1364,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Xác nhận bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_xacnhanboi"
+                            SqlColumnName = "bnt4_diungadr_xacnhanboi"
                         },
                         new
                         {
@@ -1379,7 +1379,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày xác nhận",
                             Scope = "System",
-                            SqlColumnName = "bnt4_diungb_ngayxacnhan"
+                            SqlColumnName = "bnt4_diungadr_ngayxacnhan"
                         },
                         new
                         {
@@ -1395,7 +1395,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_mabenhnhan"
+                            SqlColumnName = "bnt4_benhnen_mabenhnhan"
                         },
                         new
                         {
@@ -1410,7 +1410,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã ICD",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_maicd"
+                            SqlColumnName = "bnt4_benhnen_maicd"
                         },
                         new
                         {
@@ -1425,7 +1425,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày chẩn đoán",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_ngaychandoan"
+                            SqlColumnName = "bnt4_benhnen_ngaychandoan"
                         },
                         new
                         {
@@ -1441,7 +1441,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Chẩn đoán bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_chandoanboi"
+                            SqlColumnName = "bnt4_benhnen_chandoanboi"
                         },
                         new
                         {
@@ -1456,7 +1456,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_mucdo"
+                            SqlColumnName = "bnt4_benhnen_mucdo"
                         },
                         new
                         {
@@ -1472,7 +1472,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_trangthai"
+                            SqlColumnName = "bnt4_benhnen_trangthai"
                         },
                         new
                         {
@@ -1487,7 +1487,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_ghichu"
+                            SqlColumnName = "bnt4_benhnen_ghichu"
                         },
                         new
                         {
@@ -1503,7 +1503,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày tạo",
                             Scope = "System",
-                            SqlColumnName = "bnt4_bnenan_ngaytao"
+                            SqlColumnName = "bnt4_benhnen_ngaytao"
                         },
                         new
                         {
@@ -1518,7 +1518,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã quy tắc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_maquytac"
+                            SqlColumnName = "bnt4_quytaccanhbao_maquytac"
                         },
                         new
                         {
@@ -1533,7 +1533,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_mota"
+                            SqlColumnName = "bnt4_quytaccanhbao_mota"
                         },
                         new
                         {
@@ -1548,7 +1548,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_mucdo"
+                            SqlColumnName = "bnt4_quytaccanhbao_mucdo"
                         },
                         new
                         {
@@ -1563,7 +1563,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Hành động",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_hanhdong"
+                            SqlColumnName = "bnt4_quytaccanhbao_hanhdong"
                         },
                         new
                         {
@@ -1578,7 +1578,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Điều kiện kích hoạt",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_dieukienkichhoat"
+                            SqlColumnName = "bnt4_quytaccanhbao_dieukienkichhoat"
                         },
                         new
                         {
@@ -1593,7 +1593,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Tuổi tối thiểu",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_tuoitoithieu"
+                            SqlColumnName = "bnt4_quytaccanhbao_tuoitoithieu"
                         },
                         new
                         {
@@ -1608,7 +1608,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Tuổi tối đa",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_tuoitoida"
+                            SqlColumnName = "bnt4_quytaccanhbao_tuoitoida"
                         },
                         new
                         {
@@ -1623,7 +1623,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Giới tính",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_gioitinh"
+                            SqlColumnName = "bnt4_quytaccanhbao_gioitinh"
                         },
                         new
                         {
@@ -1639,7 +1639,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt4_qtcanh_phienban"
+                            SqlColumnName = "bnt4_quytaccanhbao_phienban"
                         },
                         new
                         {
@@ -1655,7 +1655,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_mabenhnhan"
+                            SqlColumnName = "bnt4_lichsucanhbao_mabenhnhan"
                         },
                         new
                         {
@@ -1670,7 +1670,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Đơn thuốc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_donthuoc"
+                            SqlColumnName = "bnt4_lichsucanhbao_donthuoc"
                         },
                         new
                         {
@@ -1678,7 +1678,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt4_qtcanh(Id)",
+                            FkTarget = "bnt4_quytaccanhbao(Id)",
                             GroupId = 8,
                             HasPermission = false,
                             IsCore = true,
@@ -1686,7 +1686,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Quy tắc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_quytac"
+                            SqlColumnName = "bnt4_lichsucanhbao_quytac"
                         },
                         new
                         {
@@ -1701,7 +1701,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mã thuốc",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_mathuoc"
+                            SqlColumnName = "bnt4_lichsucanhbao_mathuoc"
                         },
                         new
                         {
@@ -1716,7 +1716,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_mucdo"
+                            SqlColumnName = "bnt4_lichsucanhbao_mucdo"
                         },
                         new
                         {
@@ -1731,7 +1731,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Hành động xử trí",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_hanhdongxutri"
+                            SqlColumnName = "bnt4_lichsucanhbao_hanhdongxutri"
                         },
                         new
                         {
@@ -1747,7 +1747,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Xác nhận bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_xacnhanboi"
+                            SqlColumnName = "bnt4_lichsucanhbao_xacnhanboi"
                         },
                         new
                         {
@@ -1762,7 +1762,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú xác nhận",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_ghichuxacnhan"
+                            SqlColumnName = "bnt4_lichsucanhbao_ghichuxacnhan"
                         },
                         new
                         {
@@ -1778,7 +1778,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Xem xét bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_xemxetboi"
+                            SqlColumnName = "bnt4_lichsucanhbao_xemxetboi"
                         },
                         new
                         {
@@ -1793,7 +1793,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày xem xét",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_ngayxemxet"
+                            SqlColumnName = "bnt4_lichsucanhbao_ngayxemxet"
                         },
                         new
                         {
@@ -1809,7 +1809,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Thời gian",
                             Scope = "System",
-                            SqlColumnName = "bnt4_nkcbao_thoigian"
+                            SqlColumnName = "bnt4_lichsucanhbao_thoigian"
                         },
                         new
                         {
@@ -1964,7 +1964,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Hệ cơ quan",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_hecoquan"
+                            SqlColumnName = "bnt5_cautrucsinhoc_hecoquan"
                         },
                         new
                         {
@@ -1979,7 +1979,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã cấu trúc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_macautruc"
+                            SqlColumnName = "bnt5_cautrucsinhoc_macautruc"
                         },
                         new
                         {
@@ -1994,7 +1994,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_tentiengviet"
+                            SqlColumnName = "bnt5_cautrucsinhoc_tentiengviet"
                         },
                         new
                         {
@@ -2009,7 +2009,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_tentienganh"
+                            SqlColumnName = "bnt5_cautrucsinhoc_tentienganh"
                         },
                         new
                         {
@@ -2017,7 +2017,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_cautruc(Id)",
+                            FkTarget = "bnt5_cautrucsinhoc(Id)",
                             GroupId = 102,
                             HasPermission = false,
                             IsCore = true,
@@ -2025,7 +2025,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cấu trúc cha",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_cautruccha"
+                            SqlColumnName = "bnt5_cautrucsinhoc_cautruccha"
                         },
                         new
                         {
@@ -2040,7 +2040,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_mota"
+                            SqlColumnName = "bnt5_cautrucsinhoc_mota"
                         },
                         new
                         {
@@ -2055,7 +2055,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cấp độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_capdo"
+                            SqlColumnName = "bnt5_cautrucsinhoc_capdo"
                         },
                         new
                         {
@@ -2071,7 +2071,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_phienban"
+                            SqlColumnName = "bnt5_cautrucsinhoc_phienban"
                         },
                         new
                         {
@@ -2087,7 +2087,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cautruc_trangthai"
+                            SqlColumnName = "bnt5_cautrucsinhoc_trangthai"
                         },
                         new
                         {
@@ -2095,7 +2095,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_cautruc(Id)",
+                            FkTarget = "bnt5_cautrucsinhoc(Id)",
                             GroupId = 103,
                             HasPermission = false,
                             IsCore = true,
@@ -2103,7 +2103,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Cấu trúc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_cautruc"
+                            SqlColumnName = "bnt5_chattinhieu_cautruc"
                         },
                         new
                         {
@@ -2118,7 +2118,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã chất",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_machat"
+                            SqlColumnName = "bnt5_chattinhieu_machat"
                         },
                         new
                         {
@@ -2133,7 +2133,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_tentiengviet"
+                            SqlColumnName = "bnt5_chattinhieu_tentiengviet"
                         },
                         new
                         {
@@ -2148,7 +2148,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_tentienganh"
+                            SqlColumnName = "bnt5_chattinhieu_tentienganh"
                         },
                         new
                         {
@@ -2163,7 +2163,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Đơn vị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_donvi"
+                            SqlColumnName = "bnt5_chattinhieu_donvi"
                         },
                         new
                         {
@@ -2178,7 +2178,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Khoảng bình thường",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_khoangbinhthuong"
+                            SqlColumnName = "bnt5_chattinhieu_khoangbinhthuong"
                         },
                         new
                         {
@@ -2193,7 +2193,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_mota"
+                            SqlColumnName = "bnt5_chattinhieu_mota"
                         },
                         new
                         {
@@ -2208,7 +2208,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Loại",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_loai"
+                            SqlColumnName = "bnt5_chattinhieu_loai"
                         },
                         new
                         {
@@ -2224,7 +2224,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_phienban"
+                            SqlColumnName = "bnt5_chattinhieu_phienban"
                         },
                         new
                         {
@@ -2240,7 +2240,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chatinhieu_trangthai"
+                            SqlColumnName = "bnt5_chattinhieu_trangthai"
                         },
                         new
                         {
@@ -2255,7 +2255,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã xét nghiệm",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_maxetnghiem"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_maxetnghiem"
                         },
                         new
                         {
@@ -2270,7 +2270,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tên tiếng Việt",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_tentiengviet"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_tentiengviet"
                         },
                         new
                         {
@@ -2285,7 +2285,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Tên tiếng Anh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_tentienganh"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_tentienganh"
                         },
                         new
                         {
@@ -2300,7 +2300,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phương pháp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_phuongphap"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_phuongphap"
                         },
                         new
                         {
@@ -2315,7 +2315,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Loại mẫu",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_loaimau"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_loaimau"
                         },
                         new
                         {
@@ -2330,7 +2330,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Thời gian trả KQ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_thoigiantrakq"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_thoigiantrakq"
                         },
                         new
                         {
@@ -2345,7 +2345,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Giá thành",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_giathanh"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_giathanh"
                         },
                         new
                         {
@@ -2360,7 +2360,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_mota"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_mota"
                         },
                         new
                         {
@@ -2376,7 +2376,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_phienban"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_phienban"
                         },
                         new
                         {
@@ -2392,7 +2392,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_dmxnghiem_trangthai"
+                            SqlColumnName = "bnt5_danhmucxetnghiem_trangthai"
                         },
                         new
                         {
@@ -2400,7 +2400,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dmxnghiem(Id)",
+                            FkTarget = "bnt5_danhmucxetnghiem(Id)",
                             GroupId = 105,
                             HasPermission = false,
                             IsCore = true,
@@ -2408,7 +2408,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Xét nghiệm",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_xetnghiem"
+                            SqlColumnName = "bnt5_khoangthamchieu_xetnghiem"
                         },
                         new
                         {
@@ -2423,7 +2423,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Tuổi tối thiểu",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_tuoitoithieu"
+                            SqlColumnName = "bnt5_khoangthamchieu_tuoitoithieu"
                         },
                         new
                         {
@@ -2438,7 +2438,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Tuổi tối đa",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_tuoitoida"
+                            SqlColumnName = "bnt5_khoangthamchieu_tuoitoida"
                         },
                         new
                         {
@@ -2453,7 +2453,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Giới tính",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_gioitinh"
+                            SqlColumnName = "bnt5_khoangthamchieu_gioitinh"
                         },
                         new
                         {
@@ -2468,7 +2468,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Giá trị thấp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_giatrithap"
+                            SqlColumnName = "bnt5_khoangthamchieu_giatrithap"
                         },
                         new
                         {
@@ -2483,7 +2483,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Giá trị cao",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_giatricao"
+                            SqlColumnName = "bnt5_khoangthamchieu_giatricao"
                         },
                         new
                         {
@@ -2498,7 +2498,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Đơn vị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_donvi"
+                            SqlColumnName = "bnt5_khoangthamchieu_donvi"
                         },
                         new
                         {
@@ -2513,7 +2513,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nguy kịch thấp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_nguykichthap"
+                            SqlColumnName = "bnt5_khoangthamchieu_nguykichthap"
                         },
                         new
                         {
@@ -2528,7 +2528,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nguy kịch cao",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_nguykichcao"
+                            SqlColumnName = "bnt5_khoangthamchieu_nguykichcao"
                         },
                         new
                         {
@@ -2543,7 +2543,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_ghichu"
+                            SqlColumnName = "bnt5_khoangthamchieu_ghichu"
                         },
                         new
                         {
@@ -2559,7 +2559,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_phienban"
+                            SqlColumnName = "bnt5_khoangthamchieu_phienban"
                         },
                         new
                         {
@@ -2575,7 +2575,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ktchieucu_trangthai"
+                            SqlColumnName = "bnt5_khoangthamchieu_trangthai"
                         },
                         new
                         {
@@ -2591,7 +2591,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã bệnh nhân",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_mabenhnhan"
+                            SqlColumnName = "bnt5_lenhchidinh_mabenhnhan"
                         },
                         new
                         {
@@ -2599,7 +2599,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dmxnghiem(Id)",
+                            FkTarget = "bnt5_danhmucxetnghiem(Id)",
                             GroupId = 106,
                             HasPermission = false,
                             IsCore = true,
@@ -2607,7 +2607,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Xét nghiệm",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_xetnghiem"
+                            SqlColumnName = "bnt5_lenhchidinh_xetnghiem"
                         },
                         new
                         {
@@ -2623,7 +2623,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Ngày chỉ định",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_ngaychidinh"
+                            SqlColumnName = "bnt5_lenhchidinh_ngaychidinh"
                         },
                         new
                         {
@@ -2639,7 +2639,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Chỉ định bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_chidinhboi"
+                            SqlColumnName = "bnt5_lenhchidinh_chidinhboi"
                         },
                         new
                         {
@@ -2654,7 +2654,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Độ ưu tiên",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_douutien"
+                            SqlColumnName = "bnt5_lenhchidinh_douutien"
                         },
                         new
                         {
@@ -2670,7 +2670,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_trangthai"
+                            SqlColumnName = "bnt5_lenhchidinh_trangthai"
                         },
                         new
                         {
@@ -2685,7 +2685,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_ghichu"
+                            SqlColumnName = "bnt5_lenhchidinh_ghichu"
                         },
                         new
                         {
@@ -2701,7 +2701,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ngày tạo",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ychidinh_ngaytao"
+                            SqlColumnName = "bnt5_lenhchidinh_ngaytao"
                         },
                         new
                         {
@@ -2709,7 +2709,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ychidinh(Id)",
+                            FkTarget = "bnt5_lenhchidinh(Id)",
                             GroupId = 107,
                             HasPermission = false,
                             IsCore = true,
@@ -2717,7 +2717,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã chỉ định",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_machidinh"
+                            SqlColumnName = "bnt5_ketquadoluong_machidinh"
                         },
                         new
                         {
@@ -2732,7 +2732,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Giá trị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_giatri"
+                            SqlColumnName = "bnt5_ketquadoluong_giatri"
                         },
                         new
                         {
@@ -2747,7 +2747,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Đơn vị",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_donvi"
+                            SqlColumnName = "bnt5_ketquadoluong_donvi"
                         },
                         new
                         {
@@ -2762,7 +2762,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Ngày kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_ngayketqua"
+                            SqlColumnName = "bnt5_ketquadoluong_ngayketqua"
                         },
                         new
                         {
@@ -2778,7 +2778,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nhận định bởi",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_nhandinhboi"
+                            SqlColumnName = "bnt5_ketquadoluong_nhandinhboi"
                         },
                         new
                         {
@@ -2793,7 +2793,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cờ báo động",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_cobaodong"
+                            SqlColumnName = "bnt5_ketquadoluong_cobaodong"
                         },
                         new
                         {
@@ -2808,7 +2808,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_ghichu"
+                            SqlColumnName = "bnt5_ketquadoluong_ghichu"
                         },
                         new
                         {
@@ -2824,7 +2824,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_phienban"
+                            SqlColumnName = "bnt5_ketquadoluong_phienban"
                         },
                         new
                         {
@@ -2840,7 +2840,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ketqua_trangthai"
+                            SqlColumnName = "bnt5_ketquadoluong_trangthai"
                         },
                         new
                         {
@@ -2848,7 +2848,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ketqua(Id)",
+                            FkTarget = "bnt5_ketquadoluong(Id)",
                             GroupId = 108,
                             HasPermission = false,
                             IsCore = true,
@@ -2856,7 +2856,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_csinhhoa_maketqua"
+                            SqlColumnName = "bnt5_sinhhoa_maketqua"
                         },
                         new
                         {
@@ -2871,7 +2871,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Độ pH",
                             Scope = "System",
-                            SqlColumnName = "bnt5_csinhhoa_doph"
+                            SqlColumnName = "bnt5_sinhhoa_doph"
                         },
                         new
                         {
@@ -2886,7 +2886,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Cân bằng ion",
                             Scope = "System",
-                            SqlColumnName = "bnt5_csinhhoa_canbangion"
+                            SqlColumnName = "bnt5_sinhhoa_canbangion"
                         },
                         new
                         {
@@ -2901,7 +2901,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nồng độ enzyme",
                             Scope = "System",
-                            SqlColumnName = "bnt5_csinhhoa_nongdoenzyme"
+                            SqlColumnName = "bnt5_sinhhoa_nongdoenzyme"
                         },
                         new
                         {
@@ -2916,7 +2916,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_csinhhoa_ghichu"
+                            SqlColumnName = "bnt5_sinhhoa_ghichu"
                         },
                         new
                         {
@@ -2924,7 +2924,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ketqua(Id)",
+                            FkTarget = "bnt5_ketquadoluong(Id)",
                             GroupId = 109,
                             HasPermission = false,
                             IsCore = true,
@@ -2932,7 +2932,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_maketqua"
+                            SqlColumnName = "bnt5_sinhhieu_maketqua"
                         },
                         new
                         {
@@ -2947,7 +2947,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Huyết áp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_huyetap"
+                            SqlColumnName = "bnt5_sinhhieu_huyetap"
                         },
                         new
                         {
@@ -2962,7 +2962,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nhịp tim",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_nhiptim"
+                            SqlColumnName = "bnt5_sinhhieu_nhiptim"
                         },
                         new
                         {
@@ -2977,7 +2977,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nhiệt độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_nhietdo"
+                            SqlColumnName = "bnt5_sinhhieu_nhietdo"
                         },
                         new
                         {
@@ -2992,7 +2992,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Nhịp thở",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_nhiptho"
+                            SqlColumnName = "bnt5_sinhhieu_nhiptho"
                         },
                         new
                         {
@@ -3007,7 +3007,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "SPO2",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_spo2"
+                            SqlColumnName = "bnt5_sinhhieu_spo2"
                         },
                         new
                         {
@@ -3022,7 +3022,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_cshieusinh_ghichu"
+                            SqlColumnName = "bnt5_sinhhieu_ghichu"
                         },
                         new
                         {
@@ -3030,7 +3030,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ketqua(Id)",
+                            FkTarget = "bnt5_ketquadoluong(Id)",
                             GroupId = 110,
                             HasPermission = false,
                             IsCore = true,
@@ -3038,7 +3038,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ctebao_maketqua"
+                            SqlColumnName = "bnt5_tebao_maketqua"
                         },
                         new
                         {
@@ -3053,7 +3053,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Số lượng tế bào",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ctebao_soluongtebao"
+                            SqlColumnName = "bnt5_tebao_soluongtebao"
                         },
                         new
                         {
@@ -3068,7 +3068,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Hình thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ctebao_hinhthai"
+                            SqlColumnName = "bnt5_tebao_hinhthai"
                         },
                         new
                         {
@@ -3083,7 +3083,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Markers",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ctebao_markers"
+                            SqlColumnName = "bnt5_tebao_markers"
                         },
                         new
                         {
@@ -3098,7 +3098,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_ctebao_ghichu"
+                            SqlColumnName = "bnt5_tebao_ghichu"
                         },
                         new
                         {
@@ -3106,7 +3106,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ketqua(Id)",
+                            FkTarget = "bnt5_ketquadoluong(Id)",
                             GroupId = 111,
                             HasPermission = false,
                             IsCore = true,
@@ -3114,7 +3114,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã kết quả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chinhanh_maketqua"
+                            SqlColumnName = "bnt5_hinhanh_maketqua"
                         },
                         new
                         {
@@ -3129,7 +3129,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Loại hình",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chinhanh_loaihinh"
+                            SqlColumnName = "bnt5_hinhanh_loaihinh"
                         },
                         new
                         {
@@ -3144,7 +3144,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phát hiện",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chinhanh_phathien"
+                            SqlColumnName = "bnt5_hinhanh_phathien"
                         },
                         new
                         {
@@ -3159,7 +3159,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Đường dẫn file",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chinhanh_duongdanfile"
+                            SqlColumnName = "bnt5_hinhanh_duongdanfile"
                         },
                         new
                         {
@@ -3174,7 +3174,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Kích thước",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chinhanh_kichthuoc"
+                            SqlColumnName = "bnt5_hinhanh_kichthuoc"
                         },
                         new
                         {
@@ -3189,7 +3189,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Ghi chú",
                             Scope = "System",
-                            SqlColumnName = "bnt5_chinhanh_ghichu"
+                            SqlColumnName = "bnt5_hinhanh_ghichu"
                         },
                         new
                         {
@@ -3197,7 +3197,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_ketqua(Id)",
+                            FkTarget = "bnt5_ketquadoluong(Id)",
                             GroupId = 112,
                             HasPermission = false,
                             IsCore = true,
@@ -3288,7 +3288,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dmxnghiem(Id)",
+                            FkTarget = "bnt5_danhmucxetnghiem(Id)",
                             GroupId = 113,
                             HasPermission = false,
                             IsCore = true,
@@ -3296,7 +3296,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "XN gốc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_xnlienquan_xngoc"
+                            SqlColumnName = "bnt5_xetnghiemlienquan_xngoc"
                         },
                         new
                         {
@@ -3304,7 +3304,7 @@ namespace Server.Migrations
                             Cardinality = "1:1",
                             DataType = "REF",
                             Description = "",
-                            FkTarget = "bnt5_dmxnghiem(Id)",
+                            FkTarget = "bnt5_danhmucxetnghiem(Id)",
                             GroupId = 113,
                             HasPermission = false,
                             IsCore = true,
@@ -3312,7 +3312,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "XN đích",
                             Scope = "System",
-                            SqlColumnName = "bnt5_xnlienquan_xndich"
+                            SqlColumnName = "bnt5_xetnghiemlienquan_xndich"
                         },
                         new
                         {
@@ -3327,7 +3327,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Loại liên hệ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_xnlienquan_loailienhe"
+                            SqlColumnName = "bnt5_xetnghiemlienquan_loailienhe"
                         },
                         new
                         {
@@ -3342,7 +3342,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Mô tả",
                             Scope = "System",
-                            SqlColumnName = "bnt5_xnlienquan_mota"
+                            SqlColumnName = "bnt5_xetnghiemlienquan_mota"
                         },
                         new
                         {
@@ -3357,7 +3357,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Độ mạnh",
                             Scope = "System",
-                            SqlColumnName = "bnt5_xnlienquan_domanh"
+                            SqlColumnName = "bnt5_xetnghiemlienquan_domanh"
                         },
                         new
                         {
@@ -3372,7 +3372,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mã quy tắc",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_maquytac"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_maquytac"
                         },
                         new
                         {
@@ -3387,7 +3387,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Điều kiện",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_dieukien"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_dieukien"
                         },
                         new
                         {
@@ -3402,7 +3402,7 @@ namespace Server.Migrations
                             IsRequired = true,
                             Name = "Mức độ",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_mucdo"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_mucdo"
                         },
                         new
                         {
@@ -3417,7 +3417,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Thông điệp",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_thongdiep"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_thongdiep"
                         },
                         new
                         {
@@ -3432,7 +3432,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "XN gợi ý",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_xngoiy"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_xngoiy"
                         },
                         new
                         {
@@ -3447,7 +3447,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "XN áp dụng",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_xnapdung"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_xnapdung"
                         },
                         new
                         {
@@ -3463,7 +3463,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Phiên bản",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_phienban"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_phienban"
                         },
                         new
                         {
@@ -3479,7 +3479,7 @@ namespace Server.Migrations
                             IsRequired = false,
                             Name = "Trạng thái",
                             Scope = "System",
-                            SqlColumnName = "bnt5_qtcbxn_trangthai"
+                            SqlColumnName = "bnt5_canhbaoxetnghiem_trangthai"
                         });
                 });
 
