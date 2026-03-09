@@ -8,6 +8,7 @@ public class Group
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string SqlTableName { get; set; } = string.Empty;
+    public string TableNameFull { get; set; } = string.Empty;
     
 
     // Cardinality: "1:1", "1:N", "N:N"

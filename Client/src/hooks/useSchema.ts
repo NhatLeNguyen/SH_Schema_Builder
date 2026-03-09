@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
-import { message } from 'antd';
 
 export interface SchemaAttribute {
   id: number;
@@ -60,9 +59,8 @@ export const useGroupMutations = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tiers'] });
-      message.success('Thêm nhóm thành công');
     },
-    onError: (err: any) => message.error(err.response?.data?.message || 'Lỗi khi tạo nhóm')
+    onError: (err: any) => console.error(err.response?.data?.message || 'Lỗi khi tạo nhóm')
   });
 
   const updateGroup = useMutation({
@@ -71,9 +69,8 @@ export const useGroupMutations = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tiers'] });
-      message.success('Cập nhật nhóm thành công');
     },
-    onError: (err: any) => message.error(err.response?.data?.message || 'Lỗi khi cập nhật nhóm')
+    onError: (err: any) => console.error(err.response?.data?.message || 'Lỗi khi cập nhật nhóm')
   });
 
   const deleteGroup = useMutation({
@@ -82,9 +79,8 @@ export const useGroupMutations = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tiers'] });
-      message.success('Xóa nhóm thành công');
     },
-    onError: (err: any) => message.error(err.response?.data?.message || 'Lỗi khi xóa nhóm')
+    onError: (err: any) => console.error(err.response?.data?.message || 'Lỗi khi xóa nhóm')
   });
 
   return { createGroup, updateGroup, deleteGroup };
@@ -100,9 +96,8 @@ export const useAttributeMutations = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tiers'] });
-      message.success('Thêm thuộc tính thành công');
     },
-    onError: (err: any) => message.error(err.response?.data?.message || 'Lỗi khi tạo thuộc tính')
+    onError: (err: any) => console.error(err.response?.data?.message || 'Lỗi khi tạo thuộc tính')
   });
 
   const updateAttribute = useMutation({
@@ -111,9 +106,8 @@ export const useAttributeMutations = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tiers'] });
-      message.success('Cập nhật thuộc tính thành công');
     },
-    onError: (err: any) => message.error(err.response?.data?.message || 'Lỗi khi cập nhật thuộc tính')
+    onError: (err: any) => console.error(err.response?.data?.message || 'Lỗi khi cập nhật thuộc tính')
   });
 
   const deleteAttribute = useMutation({
@@ -122,9 +116,8 @@ export const useAttributeMutations = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tiers'] });
-      message.success('Xóa thuộc tính thành công');
     },
-    onError: (err: any) => message.error(err.response?.data?.message || 'Lỗi khi xóa thuộc tính')
+    onError: (err: any) => console.error(err.response?.data?.message || 'Lỗi khi xóa thuộc tính')
   });
 
   return { createAttribute, updateAttribute, deleteAttribute };
