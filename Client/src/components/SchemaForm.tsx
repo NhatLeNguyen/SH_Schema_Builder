@@ -19,7 +19,7 @@ export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any, o
 
   return (
     <Form layout="vertical" form={form} onFinish={onSubmit}
-      onValuesChange={(changedValues) => {
+      onValuesChange={(changedValues: any) => {
         if (changedValues.name && !initialData.id) { // Auto-generate slug for new groups
           const slug = changedValues.name.toLowerCase()
             .normalize('NFD')
@@ -83,7 +83,7 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
 
   return (
     <Form layout="vertical" form={form} onFinish={onSubmit}
-      onValuesChange={(changedValues) => {
+      onValuesChange={(changedValues: any) => {
         if (changedValues.name && !initialData.id) { // Auto-generate slug for new attributes
           const slug = changedValues.name.toLowerCase()
             .normalize('NFD')
@@ -134,7 +134,7 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
       </Form.Item>
 
       <Form.Item noStyle dependencies={['dataType']}>
-        {({ getFieldValue }) => 
+        {({ getFieldValue }: any) => 
           getFieldValue('dataType') === 'REF' ? (
             <Form.Item name="fkTarget" label="Bảng mục tiêu tham chiếu (FK Target)" rules={[{ required: true }]}>
               <Input placeholder="Ví dụ: bnt5_he_co_quan(Id)" />

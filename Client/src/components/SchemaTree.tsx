@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useEditorStore } from '../store/editorStore';
 import type { Group } from '../hooks/useSchema';
-import { FolderOutlined, FolderOpenOutlined, FileTextOutlined, EllipsisOutlined, PlusOutlined, DeleteOutlined, LockOutlined } from '@ant-design/icons';
-import { Tree, Dropdown, MenuProps, Tooltip, Empty } from 'antd';
+import { FolderOutlined, FileTextOutlined, EllipsisOutlined, PlusOutlined, DeleteOutlined, LockOutlined } from '@ant-design/icons';
+import { Tree, Dropdown, MenuProps, Tooltip, Empty, Modal } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 
 interface SchemaTreeProps {
@@ -14,14 +14,13 @@ interface SchemaTreeProps {
   onDeleteAttribute: (attributeId: number) => void;
 }
 
-export function SchemaTree({ groups, tierId, onAddSubGroup, onAddAttribute, onDeleteGroup, onDeleteAttribute }: SchemaTreeProps) {
+export function SchemaTree({ groups, onAddSubGroup, onAddAttribute, onDeleteGroup, onDeleteAttribute }: SchemaTreeProps) {
   const { selectedNodeId, setSelectedNode } = useEditorStore();
 
-  const handleSelect = (selectedKeys: React.Key[], info: any) => {
+  const handleSelect = (selectedKeys: React.Key[]) => {
     if (selectedKeys.length > 0) {
       const key = selectedKeys[0].toString();
       const isAttr = key.startsWith('a_');
-      const realId = key.replace('a_', '').replace('g_', '');
       setSelectedNode(key, isAttr ? 'attribute' : 'group');
     } else {
       setSelectedNode(null, null);
@@ -35,34 +34,50 @@ export function SchemaTree({ groups, tierId, onAddSubGroup, onAddAttribute, onDe
         key: 'add-attr',
         label: 'Thêm thuộc tính',
         icon: <PlusOutlined />,
-        onClick: (e) => { e.domEvent.stopPropagation(); onAddAttribute(id); }
+        onClick: (e: any) => { e.domEvent.stopPropagation(); onAddAttribute(id); }
       });
       items.push({
         key: 'add-sub',
         label: 'Thêm thư mục con',
         icon: <FolderOutlined />,
-        onClick: (e) => { e.domEvent.stopPropagation(); onAddSubGroup(id); }
+        onClick: (e: any) => { e.domEvent.stopPropagation(); onAddSubGroup(id); }
       });
-      if (!isCore) {
-        items.push({ type: 'divider' });
-        items.push({
-          key: 'delete-group',
-          label: 'Xóa thư mục',
-          icon: <DeleteOutlined />,
-          danger: true,
-          onClick: (e) => { e.domEvent.stopPropagation(); onDeleteGroup(id); }
-        });
-      }
+      items.push({ type: 'divider' });
+      items.push({
+        key: 'delete-group',
+        label: 'Xóa thư mục',
+        icon: <DeleteOutlined />,
+        danger: true,
+        onClick: (e: any) => { 
+          e.domEvent.stopPropagation();
+          Modal.confirm({
+            title: isCore ? 'Cảnh báo: Đây là core field từ schema gốc!' : 'Xác nhận xóa',
+            content: `Bạn có chắc chắn muốn xóa thư mục này không?${isCore ? ' Hành động này có thể gây lỗi hệ thống.' : ''}`,
+            okText: 'Xóa',
+            okType: 'danger',
+            cancelText: 'Hủy',
+            onOk: () => onDeleteGroup(id)
+          });
+        }
+      });
     } else {
-      if (!isCore) {
-        items.push({
-          key: 'delete-attr',
-          label: 'Xóa thuộc tính',
-          icon: <DeleteOutlined />,
-          danger: true,
-          onClick: (e) => { e.domEvent.stopPropagation(); onDeleteAttribute(id); }
-        });
-      }
+      items.push({
+        key: 'delete-attr',
+        label: 'Xóa thuộc tính',
+        icon: <DeleteOutlined />,
+        danger: true,
+        onClick: (e: any) => { 
+          e.domEvent.stopPropagation(); 
+          Modal.confirm({
+            title: isCore ? 'Cảnh báo: Đây là core field từ schema gốc!' : 'Xác nhận xóa',
+            content: `Bạn có chắc chắn muốn xóa thuộc tính này không?${isCore ? ' Hành động này có thể gây lỗi hệ thống.' : ''}`,
+            okText: 'Xóa',
+            okType: 'danger',
+            cancelText: 'Hủy',
+            onOk: () => onDeleteAttribute(id)
+          });
+        }
+      });
     }
     return { items };
   };

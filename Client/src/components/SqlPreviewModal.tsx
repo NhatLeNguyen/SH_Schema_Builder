@@ -17,6 +17,14 @@ export function SqlPreviewModal({ isOpen, onClose, tier }: SqlPreviewModalProps)
     let sql = `-- SQL Schema for Tier ${tier.id}: ${tier.name}\n`;
     sql += `-- Generated automatically by S&H Schema Builder\n\n`;
 
+    if (tier.id <= 3) {
+      sql += `-- Mặc định Schema Builder giả định có bảng Patient gốc:\n`;
+      sql += `CREATE TABLE [dbo].[Patient] (\n`;
+      sql += `    [Id] INT IDENTITY(1,1) PRIMARY KEY,\n`;
+      sql += `    [PatientCode] NVARCHAR(50) NOT NULL UNIQUE\n`;
+      sql += `);\nGO\n\n`;
+    }
+
     const recursivelyGenerateTables = (groups: Group[], parentGroup?: Group) => {
       groups.forEach(group => {
         const tableName = group.sqlTableName;

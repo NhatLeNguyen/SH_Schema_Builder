@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Layout, Menu, Typography, Button, Spin, Card, Empty, Divider, Modal } from 'antd';
 import { DatabaseOutlined, ApartmentOutlined, SettingOutlined, PlusOutlined, CodeOutlined } from '@ant-design/icons';
 import { SchemaTree } from '../components/SchemaTree';
@@ -12,7 +12,7 @@ const { Title, Text } = Typography;
 
 export default function SchemaEditor() {
   const { data: tiers, isLoading } = useTiers();
-  const { selectedTierId, setSelectedTierId, selectedNodeId, selectedNodeType, setSelectedNode } = useEditorStore();
+  const { selectedTierId, setSelectedTierId, selectedNodeId, selectedNodeType } = useEditorStore();
   const { createGroup, updateGroup, deleteGroup } = useGroupMutations();
   const { createAttribute, updateAttribute, deleteAttribute } = useAttributeMutations();
 
@@ -52,7 +52,7 @@ export default function SchemaEditor() {
           <Menu
             mode="inline"
             selectedKeys={[selectedTierId.toString()]}
-            onSelect={({ key }) => setSelectedTierId(Number(key))}
+            onSelect={({ key }: any) => setSelectedTierId(Number(key))}
             items={tiers?.map(tier => {
               const groupCount = tier.groups?.length || 0;
               const attrCount = tier.groups?.reduce((acc, g) => acc + (g.attributes?.length || 0), 0) || 0;
@@ -115,7 +115,16 @@ export default function SchemaEditor() {
                   initialData={groups.find(g => `g_${g.id}` === selectedNodeId) || {}} 
                   onSubmit={(values) => {
                     const id = Number(selectedNodeId?.replace('g_', ''));
-                    updateGroup.mutate({ id, ...values });
+                    const currentGroup = groups.find(g => `g_${g.id}` === selectedNodeId);
+                    if (currentGroup?.isCore) {
+                      Modal.confirm({
+                        title: 'Cảnh báo: Đây là core field từ schema gốc!',
+                        content: 'Sửa đổi cấu trúc lõi có thể ảnh hưởng đến logic hệ thống. Bạn thực sự muốn tiếp tục?',
+                        onOk: () => updateGroup.mutate({ id, ...values })
+                      });
+                    } else {
+                      updateGroup.mutate({ id, ...values });
+                    }
                   }} 
                 />
               )}
@@ -129,7 +138,15 @@ export default function SchemaEditor() {
                     const id = Number(selectedNodeId?.replace('a_', ''));
                     const currentAttr = groups.flatMap(g => g.attributes).find(a => a?.id === id);
                     if (currentAttr) {
-                      updateAttribute.mutate({ id, ...currentAttr, ...values });
+                      if (currentAttr.isCore) {
+                        Modal.confirm({
+                          title: 'Cảnh báo: Đây là core field từ schema gốc!',
+                          content: 'Sửa đổi thuộc tính lõi có thể làm gián đoạn hệ thống. Tiếp tục?',
+                          onOk: () => updateAttribute.mutate({ ...currentAttr, ...values })
+                        });
+                      } else {
+                        updateAttribute.mutate({ ...currentAttr, ...values });
+                      }
                     }
                   }} 
                 />
