@@ -22,17 +22,26 @@ public class SchemaController : ControllerBase
     public async Task<IActionResult> GetTiers()
     {
         var tiers = await _context.Tiers
-            .Include(t => t.Groups)
-                .ThenInclude(g => g.Attributes)
-            .Include(t => t.Groups)
-                .ThenInclude(g => g.SubGroups)
-                    .ThenInclude(sg => sg.Attributes)
+            .AsNoTracking()
             .ToListAsync();
 
-        // Only return root-level groups at tier level; children are in SubGroups
+        var allGroups = await _context.Groups
+            .AsNoTracking()
+            .Include(g => g.Attributes)
+            .ToListAsync();
+
+        // Build tree manually: assign SubGroups then keep only root groups per tier
+        var groupLookup = allGroups.ToLookup(g => g.ParentGroupId);
+        foreach (var group in allGroups)
+        {
+            group.SubGroups = groupLookup[group.Id].ToList();
+        }
+
         foreach (var tier in tiers)
         {
-            tier.Groups = tier.Groups.Where(g => g.ParentGroupId == null).ToList();
+            tier.Groups = allGroups
+                .Where(g => g.TierId == tier.Id && g.ParentGroupId == null)
+                .ToList();
         }
 
         return Ok(tiers);

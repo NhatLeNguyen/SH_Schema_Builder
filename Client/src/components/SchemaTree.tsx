@@ -150,6 +150,8 @@ export function SchemaTree({
               onAddSubGroup={onAddSubGroup}
               onDeleteGroup={onDeleteGroup}
               onDeleteAttribute={onDeleteAttribute}
+              expandedGroups={expandedGroups}
+              toggleGroup={toggleGroup}
             />
           );
         }
@@ -279,6 +281,8 @@ export function SchemaTree({
                     onAddSubGroup={onAddSubGroup}
                     onDeleteGroup={onDeleteGroup}
                     onDeleteAttribute={onDeleteAttribute}
+                    expandedGroups={expandedGroups}
+                    toggleGroup={toggleGroup}
                   />
                 ))}
               </div>
@@ -302,11 +306,15 @@ function TableGroupNode({
   onAddSubGroup,
   onDeleteGroup,
   onDeleteAttribute,
+  expandedGroups,
+  toggleGroup,
 }: {
   group: Group;
   tierColor: string;
   expanded: boolean;
   onToggle: () => void;
+  expandedGroups: Set<number>;
+  toggleGroup: (id: number) => void;
   selectedNodeId: string | null;
   setSelectedNode: (id: string | null, type: 'group' | 'attribute' | null) => void;
   onAddAttribute: (groupId: number) => void;
@@ -317,6 +325,8 @@ function TableGroupNode({
   const nodeKey = `g_0_${group.id}`;
   const isSelected = selectedNodeId === nodeKey;
   const attrCount = group.attributes?.length ?? 0;
+  const subGroupCount = group.subGroups?.length ?? 0;
+  const hasChildren = attrCount > 0 || subGroupCount > 0;
 
   const menuItems = [
     { key: 'add-attr', icon: <FormOutlined />, label: 'Thêm thuộc tính' },
@@ -348,11 +358,11 @@ function TableGroupNode({
         }}
         onClick={() => {
           setSelectedNode(nodeKey, 'group');
-          if (attrCount > 0) onToggle();
+          if (hasChildren) onToggle();
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
-          {attrCount > 0 ? (
+          {hasChildren ? (
             expanded
               ? <CaretDownOutlined style={{ color: '#999', fontSize: 10 }} />
               : <CaretRightOutlined style={{ color: '#999', fontSize: 10 }} />
@@ -398,10 +408,11 @@ function TableGroupNode({
         </div>
       </div>
 
-      {/* Attributes */}
-      {expanded && group.attributes && group.attributes.length > 0 && (
+      {/* Children (attributes + sub-groups) */}
+      {expanded && (
         <div style={{ paddingLeft: 36 }}>
-          {group.attributes.map(attr => {
+          {/* Attributes */}
+          {group.attributes?.map(attr => {
             const attrKey = `a_${group.id}_${attr.id}`;
             const isAttrSelected = selectedNodeId === attrKey;
 
@@ -456,6 +467,25 @@ function TableGroupNode({
               </div>
             );
           })}
+
+          {/* Sub-groups (recursive) */}
+          {group.subGroups?.map(sg => (
+            <TableGroupNode
+              key={sg.id}
+              group={sg}
+              tierColor={tierColor}
+              expanded={expandedGroups.has(sg.id)}
+              onToggle={() => toggleGroup(sg.id)}
+              selectedNodeId={selectedNodeId}
+              setSelectedNode={setSelectedNode}
+              onAddAttribute={onAddAttribute}
+              onAddSubGroup={onAddSubGroup}
+              onDeleteGroup={onDeleteGroup}
+              onDeleteAttribute={onDeleteAttribute}
+              expandedGroups={expandedGroups}
+              toggleGroup={toggleGroup}
+            />
+          ))}
         </div>
       )}
     </div>

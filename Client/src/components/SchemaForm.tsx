@@ -12,18 +12,16 @@ export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any; o
   }, [initialData, form]);
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!initialData.id) {
-      const slug = e.target.value
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9]/g, '');
-      const tierId = initialData.tierId || 1;
-      form.setFieldsValue({
-        sqlTableName: `bnt${tierId}_${slug}`.substring(0, 50),
-      });
-    }
+    const slug = e.target.value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/[^a-z0-9]/g, '');
+    const tierId = initialData.tierId || 1;
+    form.setFieldsValue({
+      sqlTableName: `bnt${tierId}_${slug}`.substring(0, 50),
+    });
   };
 
   return (
@@ -78,7 +76,7 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
   }, [initialData, form]);
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!initialData.id && parentGroupName && tierId) {
+    if (parentGroupName && tierId) {
       const slug = e.target.value
         .toLowerCase()
         .normalize('NFD')
