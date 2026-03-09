@@ -2,6 +2,10 @@
 
 Dự án quản lý cấu trúc Schema y tế chuyên sâu, bao gồm cả Frontend (React + Vite) và Backend (.NET 8 API), kết nối cơ sở dữ liệu SQL Server.
 
+## 🔐 Tài khoản Đăng nhập (Mặc định)
+- **Tài khoản**: admin
+- **Mật khẩu**: Admin@123!
+
 ## Yêu cầu hệ thống (Prerequisites)
 Bạn có thể chạy dự án trực tiếp trên máy host hoặc sử dụng Docker để đồng bộ môi trường.
 
