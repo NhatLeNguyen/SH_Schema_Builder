@@ -56,9 +56,18 @@ public class SchemaController : ControllerBase
     public async Task<IActionResult> UpdateGroup(int id, [FromBody] Group group)
     {
         if (id != group.Id) return BadRequest("ID mismatch");
-        if (group.Tier != null) group.Tier = null!; // Avoid modifying tier
-        
-        _context.Entry(group).State = EntityState.Modified;
+
+        var existing = await _context.Groups.FindAsync(id);
+        if (existing == null) return NotFound();
+
+        existing.Name = group.Name;
+        existing.SqlTableName = group.SqlTableName;
+        existing.TableNameFull = group.TableNameFull;
+        existing.Cardinality = group.Cardinality;
+        existing.Description = group.Description;
+        existing.IsCore = group.IsCore;
+        existing.ParentGroupId = group.ParentGroupId;
+
         await _context.SaveChangesAsync();
         return NoContent();
     }
@@ -69,8 +78,6 @@ public class SchemaController : ControllerBase
         var group = await _context.Groups.Include(g => g.Attributes).FirstOrDefaultAsync(g => g.Id == id);
         if (group == null) return NotFound();
         
-        if (group.IsCore) return BadRequest(new { message = "Không thể xóa nhóm dữ liệu cốt lõi (Core)." });
-
         if (group.Attributes != null && group.Attributes.Any())
         {
             _context.Attributes.RemoveRange(group.Attributes);
@@ -102,12 +109,21 @@ public class SchemaController : ControllerBase
     {
         if (id != attribute.Id) return BadRequest("ID mismatch");
 
+        var existing = await _context.Attributes.FindAsync(id);
+        if (existing == null) return NotFound();
+
         bool exists = await _context.Attributes.AnyAsync(a => a.SqlColumnName == attribute.SqlColumnName && a.Id != id);
         if (exists) return BadRequest(new { message = "Cột SQL đã tồn tại, yêu cầu tên duy nhất." });
 
-        if (attribute.Group != null) attribute.Group = null!;
+        existing.Name = attribute.Name;
+        existing.SqlColumnName = attribute.SqlColumnName;
+        existing.DataType = attribute.DataType;
+        existing.IsRequired = attribute.IsRequired;
+        existing.DefaultValue = attribute.DefaultValue;
+        existing.Description = attribute.Description;
+        existing.FkTarget = attribute.FkTarget;
+        existing.IsCore = attribute.IsCore;
 
-        _context.Entry(attribute).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return NoContent();
     }
@@ -117,8 +133,6 @@ public class SchemaController : ControllerBase
     {
         var attribute = await _context.Attributes.FindAsync(id);
         if (attribute == null) return NotFound();
-
-        if (attribute.IsCore) return BadRequest(new { message = "Không thể xóa thuộc tính cốt lõi (Core)." });
 
         _context.Attributes.Remove(attribute);
         await _context.SaveChangesAsync();

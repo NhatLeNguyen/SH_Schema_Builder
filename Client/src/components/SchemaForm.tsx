@@ -1,24 +1,11 @@
 import { useEffect } from 'react';
-import { Form, Input, Select, Checkbox, Button, Alert, Row, Col, Divider } from 'antd';
+import { Form, Input, Select, Checkbox, Button, Row, Col, Divider } from 'antd';
 import {
   SaveOutlined,
-  WarningOutlined,
 } from '@ant-design/icons';
-
-const CoreWarning = () => (
-  <Alert
-    message="Cảnh báo: Core System Field"
-    description="Đây là thành phần thuộc Schema gốc của hệ thống S&H. Việc thay đổi có thể gây lỗi đồng bộ dữ liệu nghiêm trọng. Vui lòng chỉ chỉnh sửa khi thực sự cần thiết."
-    type="error"
-    showIcon
-    icon={<WarningOutlined />}
-    style={{ marginBottom: 24, borderRadius: 12 }}
-  />
-);
 
 export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any; onSubmit: (data: any) => void }) {
   const [form] = Form.useForm();
-  const isCore = !!initialData.isCore;
 
   useEffect(() => {
     form.setFieldsValue({ ...initialData });
@@ -37,49 +24,32 @@ export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any; o
       const tierId = initialData.tierId || 1;
       form.setFieldsValue({
         sqlTableName: `bnt${tierId}_${slug}`.substring(0, 50),
-        tableNameFull: slug,
       });
     }
   };
 
-  const handleFinish = (values: any) => {
-    if (isCore && !confirm('Cảnh báo: Đây là core field từ schema gốc! Bạn vẫn muốn tiếp tục?')) return;
-    onSubmit(values);
-  };
-
   return (
-    <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={initialData}>
-      {isCore && <CoreWarning />}
-
+    <Form form={form} layout="vertical" onFinish={onSubmit} initialValues={initialData}>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="Tên hiển thị" name="name" rules={[{ required: true }]}>
-            <Input placeholder="ví dụ: Thông tin hành chính" disabled={isCore} onChange={onNameChange} />
+            <Input placeholder="ví dụ: Thông tin hành chính" onChange={onNameChange} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Tên bảng SQL (Short)" name="sqlTableName">
-            <Input placeholder="bntX_ten_bang" disabled={isCore} />
+          <Form.Item label="Tên bảng SQL" name="sqlTableName">
+            <Input placeholder="bntX_ten_bang" />
           </Form.Item>
         </Col>
       </Row>
 
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item label="Tên bảng đầy đủ" name="tableNameFull">
-            <Input placeholder="nhomduocly" disabled={isCore} />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label="Bản số (Cardinality)" name="cardinality">
-            <Select disabled={isCore} options={[
-              { label: '1:1 (Một - Một)', value: '1:1' },
-              { label: '1:N (Một - Nhiều)', value: '1:N' },
-              { label: 'N:N (Nhiều - Nhiều)', value: 'N:N' },
-            ]} />
-          </Form.Item>
-        </Col>
-      </Row>
+      <Form.Item label="Quan hệ" name="cardinality">
+        <Select options={[
+          { label: '1:1 (Một - Một)', value: '1:1' },
+          { label: '1:N (Một - Nhiều)', value: '1:N' },
+          { label: 'N:N (Nhiều - Nhiều)', value: 'N:N' },
+        ]} />
+      </Form.Item>
 
       <Form.Item label="Ghi chú & Mô tả" name="description">
         <Input.TextArea rows={4} placeholder="Nhập mô tả chi tiết về nhóm dữ liệu này..." />
@@ -94,9 +64,8 @@ export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any; o
           icon={<SaveOutlined />}
           block
           size="large"
-          danger={isCore}
         >
-          {isCore ? 'Ghi đè cấu trúc lõi' : 'Lưu thông tin nhóm'}
+          Lưu thông tin nhóm
         </Button>
       </Form.Item>
     </Form>
@@ -105,7 +74,6 @@ export function GroupForm({ initialData = {}, onSubmit }: { initialData?: any; o
 
 export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tierId }: { initialData?: any; onSubmit: (data: any) => void; parentGroupName?: string; tierId?: number }) {
   const [form] = Form.useForm();
-  const isCore = !!initialData.isCore;
 
   useEffect(() => {
     form.setFieldsValue({ ...initialData });
@@ -135,26 +103,19 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
     }
   };
 
-  const handleFinish = (values: any) => {
-    if (isCore && !confirm('Cảnh báo: Đây là core field từ schema gốc! Bạn vẫn muốn tiếp tục?')) return;
-    onSubmit(values);
-  };
-
   const dataType = Form.useWatch('dataType', form);
 
   return (
-    <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={initialData}>
-      {isCore && <CoreWarning />}
-
+    <Form form={form} layout="vertical" onFinish={onSubmit} initialValues={initialData}>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="Tên thuộc tính" name="name" rules={[{ required: true }]}>
-            <Input placeholder="ví dụ: Họ và tên" disabled={isCore} onChange={onNameChange} />
+            <Input placeholder="ví dụ: Họ và tên" onChange={onNameChange} />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item label="Tên cột SQL" name="sqlColumnName">
-            <Input placeholder="bntX_nhom_ten" disabled={isCore} />
+            <Input placeholder="bntX_nhom_ten" />
           </Form.Item>
         </Col>
       </Row>
@@ -162,7 +123,7 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="Kiểu dữ liệu" name="dataType">
-            <Select disabled={isCore} options={[
+            <Select options={[
               { label: 'VARCHAR', value: 'VARCHAR' },
               { label: 'NVARCHAR', value: 'NVARCHAR' },
               { label: 'INT', value: 'INT' },
@@ -177,8 +138,8 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Bản số" name="cardinality">
-            <Select disabled={isCore} options={[
+          <Form.Item label="Quan hệ" name="cardinality">
+            <Select options={[
               { label: '1:1', value: '1:1' },
               { label: '1:N', value: '1:N' },
             ]} />
@@ -188,25 +149,25 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
 
       {dataType === 'REF' && (
         <Form.Item label="Bảng tham chiếu (Target)" name="fkTarget">
-          <Input placeholder="bnt5_hecoquan(Id)" disabled={isCore} />
+          <Input placeholder="bnt5_hecoquan(Id)" />
         </Form.Item>
       )}
 
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item name="isRequired" valuePropName="checked">
-            <Checkbox disabled={isCore}>Bắt buộc nhập (NOT NULL)</Checkbox>
+            <Checkbox>Bắt buộc nhập (NOT NULL)</Checkbox>
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item name="isCore" valuePropName="checked">
-            <Checkbox disabled={isCore}>Trường dữ liệu lõi (Core)</Checkbox>
+            <Checkbox>Trường dữ liệu lõi (Core)</Checkbox>
           </Form.Item>
         </Col>
       </Row>
 
       <Form.Item label="Giá trị mặc định" name="defaultValue">
-        <Input placeholder="NULL / 'DEFAULT_VAL' / GETDATE()" disabled={isCore} />
+        <Input placeholder="NULL / 'DEFAULT_VAL' / GETDATE()" />
       </Form.Item>
 
       <Divider />
@@ -218,9 +179,8 @@ export function AttributeForm({ initialData = {}, onSubmit, parentGroupName, tie
           icon={<SaveOutlined />}
           block
           size="large"
-          danger={isCore}
         >
-          {isCore ? 'Ghi đè cấu trúc lõi' : 'Lưu thuộc tính'}
+          Lưu thông tin thuộc tính
         </Button>
       </Form.Item>
     </Form>

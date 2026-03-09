@@ -255,7 +255,7 @@ function TableGroupNode({
     {
       key: 'delete',
       icon: <DeleteOutlined />,
-      label: group.isCore ? 'Xóa (Core)' : 'Xóa nhóm',
+      label: 'Xóa nhóm',
       danger: true,
     },
   ];
@@ -311,15 +311,7 @@ function TableGroupNode({
                 domEvent.stopPropagation();
                 if (key === 'add-attr') onAddAttribute(group.id);
                 else if (key === 'add-subgroup') onAddSubGroup(group.id);
-                else if (key === 'delete') {
-                  if (group.isCore) {
-                    if (confirm('Đây là Core group! Xóa có thể gây lỗi hệ thống. Tiếp tục?')) {
-                      onDeleteGroup(group.id);
-                    }
-                  } else {
-                    onDeleteGroup(group.id);
-                  }
-                }
+                else if (key === 'delete') onDeleteGroup(group.id);
               },
             }}
             trigger={['click']}
@@ -374,7 +366,7 @@ function TableGroupNode({
                 </div>
                 <span className="schema-attr-actions" style={{ opacity: 0, transition: 'opacity 0.15s' }}>
                   <Popconfirm
-                    title={attr.isCore ? 'Core field! Xóa có thể gây lỗi.' : 'Xác nhận xóa?'}
+                    title="Xác nhận xóa?"
                     onConfirm={(e) => { e?.stopPropagation(); onDeleteAttribute(attr.id); }}
                     onCancel={(e) => e?.stopPropagation()}
                     okText="Xóa"
